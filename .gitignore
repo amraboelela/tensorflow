@@ -152,4 +152,6 @@ audioFiles.txt
 *.jpg
 *.mp3
 *.srt
-durations.txt
+__MACOSX
+__pycache__
+
