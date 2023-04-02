@@ -163,9 +163,11 @@ def plot_loss_curves(history):
     history: TensorFlow model History object (see: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/History)
   """ 
   loss = history['loss']
+  print("loss: " + str(loss))
   val_loss = history['val_loss']
 
   accuracy = history['accuracy']
+  print("accuracy: " + str(accuracy))
   val_accuracy = history['val_accuracy']
 
   epochs = range(len(history['loss']))
@@ -183,7 +185,8 @@ def plot_loss_curves(history):
   plt.plot(epochs, val_accuracy, label='val_accuracy')
   plt.title('Accuracy')
   plt.xlabel('Epochs')
-  plt.legend();
+  plt.legend()
+  plt.savefig('plot.png', format='png')
 
 def compare_historys(original_history, new_history, initial_epochs=5):
     """

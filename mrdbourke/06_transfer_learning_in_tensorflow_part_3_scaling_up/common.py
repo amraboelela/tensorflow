@@ -37,4 +37,5 @@ data_augmentation = Sequential([
   # preprocessing.Rescaling(1./255) # keep for models like ResNet50V2, remove for EfficientNet
 ], name="data_augmentation")
 
+imagePath = "/home/amr/webserver/HaneinWebserver/Public/images"
 
