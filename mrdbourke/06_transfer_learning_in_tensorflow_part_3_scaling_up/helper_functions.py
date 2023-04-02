@@ -162,13 +162,13 @@ def plot_loss_curves(history):
   Args:
     history: TensorFlow model History object (see: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/History)
   """ 
-  loss = history.history['loss']
-  val_loss = history.history['val_loss']
+  loss = history['loss']
+  val_loss = history['val_loss']
 
-  accuracy = history.history['accuracy']
-  val_accuracy = history.history['val_accuracy']
+  accuracy = history['accuracy']
+  val_accuracy = history['val_accuracy']
 
-  epochs = range(len(history.history['loss']))
+  epochs = range(len(history['loss']))
 
   # Plot loss
   plt.plot(epochs, loss, label='training_loss')
@@ -196,18 +196,18 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     """
     
     # Get original history measurements
-    acc = original_history.history["accuracy"]
-    loss = original_history.history["loss"]
+    acc = original_history["accuracy"]
+    loss = original_history["loss"]
 
-    val_acc = original_history.history["val_accuracy"]
-    val_loss = original_history.history["val_loss"]
+    val_acc = original_history["val_accuracy"]
+    val_loss = original_history["val_loss"]
 
     # Combine original history with new history
-    total_acc = acc + new_history.history["accuracy"]
-    total_loss = loss + new_history.history["loss"]
+    total_acc = acc + new_history["accuracy"]
+    total_loss = loss + new_history["loss"]
 
-    total_val_acc = val_acc + new_history.history["val_accuracy"]
-    total_val_loss = val_loss + new_history.history["val_loss"]
+    total_val_acc = val_acc + new_history["val_accuracy"]
+    total_val_loss = val_loss + new_history["val_loss"]
 
     # Make plots
     plt.figure(figsize=(8, 8))
