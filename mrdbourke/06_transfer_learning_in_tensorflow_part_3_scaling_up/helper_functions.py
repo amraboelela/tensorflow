@@ -231,7 +231,8 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
     plt.show()
-  
+    plt.savefig('plot.png', format='png')
+
 # Create function to unzip a zipfile into current working directory 
 # (since we're going to be downloading and unzipping a few files)
 import zipfile
