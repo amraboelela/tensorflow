@@ -1,5 +1,7 @@
 import helper_functions
 import tensorflow as tf
+from os import path
+import subprocess
 
 train_dir = "101_food_classes_10_percent/train/"
 test_dir = "101_food_classes_10_percent/test/"

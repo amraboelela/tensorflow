@@ -1,7 +1,5 @@
 from common import *
 from model import *
-import tensorflow as tf
-import subprocess
 import pickle
 from tensorflow.keras.models import load_model
 

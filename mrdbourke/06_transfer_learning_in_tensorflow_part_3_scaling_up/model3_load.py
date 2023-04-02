@@ -1,9 +1,4 @@
-import subprocess
-import tensorflow as tf
-from helper_functions import *
 from common import *
-import sys, subprocess, os.path
-from os import path
 
 model_name = '06_101_food_class_10_percent_saved_big_dog_model'
 
@@ -18,9 +13,4 @@ if not path.exists('data/' + model_name):
 # There's also a thread on GitHub trying to fix these warnings: https://github.com/tensorflow/tensorflow/issues/40166
 # model = tf.keras.models.load_model("drive/My Drive/tensorflow_course/101_food_class_10_percent_saved_big_dog_model/") # path to drive model
 model = tf.keras.models.load_model('data/' + model_name) # don't include ".zip" in loaded model path
-
-# Check to see if loaded model is a trained model
-loaded_loss, loaded_accuracy = model.evaluate(test_data)
-print(loaded_loss)
-print(loaded_accuracy)
 
