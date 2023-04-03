@@ -151,6 +151,7 @@ audioFiles.txt
 *.vtt
 *.jpg
 *.mp3
+*.png
 *.srt
 __MACOSX
 __pycache__
