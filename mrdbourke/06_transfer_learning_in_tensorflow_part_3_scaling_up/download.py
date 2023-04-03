@@ -11,3 +11,4 @@ subprocess.run(['mv', '101_food_classes_10_percent', 'data'])
 subprocess.run(['rm', '101_food_classes_10_percent.zip'])
 subprocess.run(['rm', '-r', '__MACOSX'])
 walk_through_dir("data/101_food_classes_10_percent")
+

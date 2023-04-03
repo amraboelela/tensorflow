@@ -5,6 +5,7 @@ import subprocess
 import pickle
 from tensorflow.keras.models import load_model
 from tensorflow.keras import layers
+import numpy as np
 
 train_dir = "data/101_food_classes_10_percent/train/"
 test_dir = "data/101_food_classes_10_percent/test/"
