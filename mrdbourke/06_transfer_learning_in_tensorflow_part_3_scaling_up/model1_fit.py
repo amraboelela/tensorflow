@@ -13,4 +13,3 @@ model.save_weights('data/model.h5')
 import pickle
 with open('data/history_all_classes_10_percent.pkl', 'wb') as file:
     pickle.dump(history_all_classes_10_percent.history, file)
-

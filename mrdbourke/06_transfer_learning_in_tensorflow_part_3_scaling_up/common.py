@@ -43,4 +43,3 @@ data_augmentation = Sequential([
 ], name="data_augmentation")
 
 imagePath = "/home/amr/webserver/HaneinWebserver/Public/images"
-

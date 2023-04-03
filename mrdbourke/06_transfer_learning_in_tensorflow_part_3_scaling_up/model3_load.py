@@ -13,4 +13,3 @@ if not path.exists('data/' + model_name):
 # There's also a thread on GitHub trying to fix these warnings: https://github.com/tensorflow/tensorflow/issues/40166
 # model = tf.keras.models.load_model("drive/My Drive/tensorflow_course/101_food_class_10_percent_saved_big_dog_model/") # path to drive model
 model = tf.keras.models.load_model('data/' + model_name) # don't include ".zip" in loaded model path
-

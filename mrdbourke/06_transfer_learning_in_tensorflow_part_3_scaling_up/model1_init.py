@@ -17,4 +17,3 @@ model = tf.keras.Model(inputs, outputs)
 model.compile(loss="categorical_crossentropy",
               optimizer=tf.keras.optimizers.Adam(), # use Adam with default settings
               metrics=["accuracy"])
-
