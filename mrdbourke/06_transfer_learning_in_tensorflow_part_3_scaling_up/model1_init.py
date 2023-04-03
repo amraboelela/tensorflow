@@ -1,7 +1,4 @@
-import tensorflow as tf
-from tensorflow.keras import layers
 from common import *
-from helper_functions import *
 
 # Setup base model and freeze its layers (this will extract features)
 base_model = tf.keras.applications.EfficientNetB0(include_top=False)

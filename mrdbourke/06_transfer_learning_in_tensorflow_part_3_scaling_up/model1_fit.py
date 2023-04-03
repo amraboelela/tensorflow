@@ -1,4 +1,4 @@
-from model import *
+from model1_init import *
 
 # Fit
 history_all_classes_10_percent = model.fit(train_data_all_10_percent,
