@@ -12,6 +12,5 @@ history_all_classes_10_percent_fine_tune = model.fit(train_data_all_10_percent,
 model.save_weights('data/model2.h5')
 
 # Save the history to a file
-import pickle
 with open('data/history_all_classes_10_percent_fine_tune.pkl', 'wb') as file:
     pickle.dump(history_all_classes_10_percent_fine_tune.history, file)
