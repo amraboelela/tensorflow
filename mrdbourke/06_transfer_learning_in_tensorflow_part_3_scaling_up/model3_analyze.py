@@ -23,7 +23,6 @@ print("sklearn_accuracy: " + str(sklearn_accuracy))
 print(f"Close? {np.isclose(loaded_accuracy, sklearn_accuracy)} | Difference: {loaded_accuracy - sklearn_accuracy}")
 
 # Get the class names
-class_names = test_data.class_names
 print(class_names)
 
 # Plot a confusion matrix with all 25250 predictions, ground truth labels and 101 classes
