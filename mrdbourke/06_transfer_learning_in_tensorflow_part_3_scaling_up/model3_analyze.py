@@ -38,3 +38,25 @@ make_confusion_matrix(y_true=y_labels,
 
 subprocess.run(['mv', 'confusion_matrix.png', imagePath])
 
+from sklearn.metrics import classification_report
+print(classification_report(y_labels, pred_classes))
+
+classification_report_dict = classification_report(y_labels, pred_classes, output_dict=True)
+print(classification_report_dict)
+
+# Create empty dictionary
+class_f1_scores = {}
+# Loop through classification report items
+for k, v in classification_report_dict.items():
+  if k == "accuracy": # stop once we get to accuracy key
+    break
+  else:
+    # Append class names and f1-scores to new dictionary
+    class_f1_scores[class_names[int(k)]] = v["f1-score"]
+print(class_f1_scores)
+
+# Turn f1-scores into dataframe for visualization
+f1_scores = pd.DataFrame({"class_name": list(class_f1_scores.keys()),
+                          "f1-score": list(class_f1_scores.values())}).sort_values("f1-score", ascending=False)
+print(f1_scores)
+

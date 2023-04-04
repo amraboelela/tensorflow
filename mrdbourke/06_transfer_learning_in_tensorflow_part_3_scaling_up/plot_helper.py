@@ -83,3 +83,26 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
   # Save the figure to the current working directory
   if savefig:
     fig.savefig("confusion_matrix.png")
+
+
+
+fig, ax = plt.subplots(figsize=(12, 25))
+scores = ax.barh(range(len(f1_scores)), f1_scores["f1-score"].values)
+ax.set_yticks(range(len(f1_scores)))
+ax.set_yticklabels(list(f1_scores["class_name"]))
+ax.set_xlabel("f1-score")
+ax.set_title("F1-Scores for 10 Different Classes")
+ax.invert_yaxis(); # reverse the order
+
+def autolabel(rects): # Modified version of: https://matplotlib.org/examples/api/barchart_demo.html
+  """
+  Attach a text label above each bar displaying its height (it's value).
+  """
+  for rect in rects:
+    width = rect.get_width()
+    ax.text(1.03*width, rect.get_y() + rect.get_height()/1.5,
+            f"{width:.2f}",
+            ha='center', va='bottom')
+
+autolabel(scores)
+
