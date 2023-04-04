@@ -1,4 +1,5 @@
 from model3_evaluate_load import *
+from confusion_matrix import *
 
 # Get the class predicitons of each label
 pred_classes = pred_probs.argmax(axis=1)
