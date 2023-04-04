@@ -73,10 +73,10 @@ print(custom_food_images)
 
 # Make predictions on custom food images
 plt.figure(figsize=(15, 10))
-count = 0
+count = 1
 for img in custom_food_images:
   plt.subplot(3, 3, count)
-  count = count + 1
+  count += 1
   img = load_and_prep_image(img, scale=False) # load in target image and turn it into tensor
   pred_prob = model.predict(tf.expand_dims(img, axis=0)) # make prediction on image with shape [None, 224, 224, 3]
   pred_class = class_names[pred_prob.argmax()] # find the predicted class label
