@@ -17,7 +17,6 @@ for img in custom_food_images:
   pred_prob = model.predict(tf.expand_dims(img, axis=0)) # make prediction on image with shape [None, 224, 224, 3]
   pred_class = class_names[pred_prob.argmax()] # find the predicted class label
   # Plot the image with appropriate annotations
-  plt.figure()
   plt.imshow(img/255.) # imshow() requires float inputs to be normalized
   plt.title(f"pred: {pred_class}, prob: {pred_prob.max():.2f}")
   plt.axis(False)
