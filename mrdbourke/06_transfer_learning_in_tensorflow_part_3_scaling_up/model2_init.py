@@ -18,3 +18,4 @@ model.compile(loss='categorical_crossentropy',
 # Check which layers are trainable
 #for layer_number, layer in enumerate(base_model.layers):
 #  print(layer_number, layer.name, layer.trainable)
+

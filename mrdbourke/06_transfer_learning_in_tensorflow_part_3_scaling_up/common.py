@@ -3,10 +3,9 @@ import tensorflow as tf
 from os import path
 import subprocess
 import pickle
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model, Sequential
 from tensorflow.keras import layers
 from tensorflow.keras.layers.experimental import preprocessing
-from tensorflow.keras.models import Sequential
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
