@@ -1,4 +1,4 @@
-from model3_evaluate_load import *
+from model3_analyze import *
 from model3_load import *
 
 plt.figure(figsize=(17, 10))
@@ -25,4 +25,21 @@ for i in range(3):
   
 plt.savefig('plot.png', format='png')
 subprocess.run(['mv', 'plot.png', imagePath + "/plot3.png"])
+
+# 1. Get the filenames of all of our test data
+filepaths = []
+for filepath in test_data.list_files("data/101_food_classes_10_percent/test/*/*.jpg",
+                                     shuffle=False):
+  filepaths.append(filepath.numpy())
+print(filepaths[:10])
+
+# 2. Create a dataframe out of current prediction data for analysis
+import pandas as pd
+pred_df = pd.DataFrame({"img_path": filepaths,
+                        "y_true": y_labels,
+                        "y_pred": pred_classes,
+                        "pred_conf": pred_probs.max(axis=1), # get the maximum prediction probability value
+                        "y_true_classname": [class_names[i] for i in y_labels],
+                        "y_pred_classname": [class_names[i] for i in pred_classes]})
+print(pred_df.head())
 
