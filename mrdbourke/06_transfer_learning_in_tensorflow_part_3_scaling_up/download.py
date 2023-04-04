@@ -1,5 +1,3 @@
-from os import path
-import subprocess
 from helper_functions import *
     
 subprocess.run(['mkdir', '-p', 'data'])

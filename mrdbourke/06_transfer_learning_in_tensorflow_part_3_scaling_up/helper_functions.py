@@ -8,6 +8,8 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 import datetime
 import os
+from os import path
+import subprocess
 
 # Create a function to import an image and resize it to be able to be used with our model
 def load_and_prep_image(filename, img_shape=224, scale=True):
