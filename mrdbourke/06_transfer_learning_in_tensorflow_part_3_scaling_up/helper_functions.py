@@ -2,6 +2,12 @@
 ### Storing them here so they're easily accessible.
 
 import tensorflow as tf
+import itertools
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.metrics import confusion_matrix
+import datetime
+import os
 
 # Create a function to import an image and resize it to be able to be used with our model
 def load_and_prep_image(filename, img_shape=224, scale=True):
@@ -18,7 +24,7 @@ def load_and_prep_image(filename, img_shape=224, scale=True):
   # Read in the image
   img = tf.io.read_file(filename)
   # Decode it into a tensor
-  img = tf.image.decode_jpeg(img)
+  img = tf.io.decode_image(img)
   # Resize the image
   img = tf.image.resize(img, [img_shape, img_shape])
   if scale:
@@ -29,10 +35,6 @@ def load_and_prep_image(filename, img_shape=224, scale=True):
 
 # Note: The following confusion matrix code is a remix of Scikit-Learn's 
 # plot_confusion_matrix function - https://scikit-learn.org/stable/modules/generated/sklearn.metrics.plot_confusion_matrix.html
-import itertools
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.metrics import confusion_matrix
   
 # Make a function to predict on images and plot them (works with multi-class)
 def pred_and_plot(model, filename, class_names):
@@ -56,8 +58,6 @@ def pred_and_plot(model, filename, class_names):
   plt.imshow(img)
   plt.title(f"Prediction: {pred_class}")
   plt.axis(False);
-  
-import datetime
 
 def create_tensorboard_callback(dir_name, experiment_name):
   """
@@ -157,25 +157,9 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.xlabel('epoch')
     plt.show()
     plt.savefig('plot.png', format='png')
- 
-# Create function to unzip a zipfile into current working directory 
-# (since we're going to be downloading and unzipping a few files)
-import zipfile
-
-def unzip_data(filename):
-  """
-  Unzips filename into the current working directory.
-
-  Args:
-    filename (str): a filepath to a target zip folder to be unzipped.
-  """
-  zip_ref = zipfile.ZipFile(filename, "r")
-  zip_ref.extractall()
-  zip_ref.close()
 
 # Walk through an image classification directory and find out how many files (images)
 # are in each subdirectory.
-import os
 
 def walk_through_dir(dir_path):
   """
