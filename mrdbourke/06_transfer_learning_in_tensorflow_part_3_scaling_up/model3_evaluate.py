@@ -1,5 +1,15 @@
 from model3_load import *
 
+# Check to see if loaded model is a trained model
+loaded_loss, loaded_accuracy = model.evaluate(test_data)
+print(loaded_loss)
+print(loaded_accuracy)
+
+# Save the results to a file
+with open('data/evaluation3.txt', 'w') as f:
+    f.write(f'Test loss: {loaded_loss}\n')
+    f.write(f'Test accuracy: {loaded_accuracy}\n')
+
 # Make predictions with model
 pred_probs = model.predict(test_data, verbose=1) # set verbosity to see how long it will take
 print(len(pred_probs))

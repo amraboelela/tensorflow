@@ -1,6 +1,4 @@
-from model3_load import *
-
-pred_probs = np.loadtxt('data/predictions3.txt')
+from model3_evaluate_load import *
 
 # Get the class predicitons of each label
 pred_classes = pred_probs.argmax(axis=1)
@@ -15,16 +13,14 @@ for images, labels in test_data.unbatch(): # unbatch the test data and get image
 print(y_labels[:10]) # check what they look like (unshuffled)
 
 # How many labels are there? (should be the same as how many prediction probabilities we have)
-len(y_labels)
+print(len(y_labels))
 
 # Get accuracy score by comparing predicted classes to ground truth labels
-#from sklearn.metrics import accuracy_score
-#sklearn_accuracy = accuracy_score(y_labels, pred_classes)
-#print("sklearn_accuracy: " + str(sklearn_accuracy))
+sklearn_accuracy = accuracy_score(y_labels, pred_classes)
+print("sklearn_accuracy: " + str(sklearn_accuracy))
 
 # Does the evaluate method compare to the Scikit-Learn measured accuracy?
-#import numpy as np
-#print(f"Close? {np.isclose(loaded_accuracy, sklearn_accuracy)} | Difference: {loaded_accuracy - sklearn_accuracy}")
+print(f"Close? {np.isclose(loaded_accuracy, sklearn_accuracy)} | Difference: {loaded_accuracy - sklearn_accuracy}")
 
 # Get the class names
 class_names = test_data.class_names
