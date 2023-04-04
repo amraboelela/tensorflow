@@ -1,5 +1,4 @@
 from model3_evaluate_load import *
-from confusion_matrix import *
 
 # Get the class predicitons of each label
 pred_classes = pred_probs.argmax(axis=1)
@@ -59,4 +58,26 @@ print(class_f1_scores)
 f1_scores = pd.DataFrame({"class_name": list(class_f1_scores.keys()),
                           "f1-score": list(class_f1_scores.values())}).sort_values("f1-score", ascending=False)
 print(f1_scores)
+
+fig, ax = plt.subplots(figsize=(12, 25))
+scores = ax.barh(range(len(f1_scores)), f1_scores["f1-score"].values)
+ax.set_yticks(range(len(f1_scores)))
+ax.set_yticklabels(list(f1_scores["class_name"]))
+ax.set_xlabel("f1-score")
+ax.set_title("F1-Scores for 10 Different Classes")
+ax.invert_yaxis(); # reverse the order
+
+def autolabel(rects): # Modified version of: https://matplotlib.org/examples/api/barchart_demo.html
+  """
+  Attach a text label above each bar displaying its height (it's value).
+  """
+  for rect in rects:
+    width = rect.get_width()
+    ax.text(1.03*width, rect.get_y() + rect.get_height()/1.5,
+            f"{width:.2f}",
+            ha='center', va='bottom')
+  
+autolabel(scores)
+plt.savefig('plot.png', format='png')
+subprocess.run(['mv', 'plot.png', imagePath + "/plot3.png"])
 
