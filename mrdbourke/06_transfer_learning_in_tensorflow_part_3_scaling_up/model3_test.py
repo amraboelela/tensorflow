@@ -43,3 +43,25 @@ pred_df = pd.DataFrame({"img_path": filepaths,
                         "y_pred_classname": [class_names[i] for i in pred_classes]})
 print(pred_df.head())
 
+# 3. Is the prediction correct?
+pred_df["pred_correct"] = pred_df["y_true"] == pred_df["y_pred"]
+print(pred_df.head())
+
+# 4. Get the top 100 wrong examples
+top_100_wrong = pred_df[pred_df["pred_correct"] == False].sort_values("pred_conf", ascending=False)[:100]
+print(top_100_wrong.head(20))
+
+# 5. Visualize some of the most wrong examples
+images_to_view = 9
+start_index = 20 # change the start index to view more
+plt.figure(figsize=(15, 10))
+for i, row in enumerate(top_100_wrong[start_index:start_index+images_to_view].itertuples()):
+  plt.subplot(3, 3, i+1)
+  img = load_and_prep_image(row[1], scale=True)
+  _, _, _, _, pred_prob, y_true, y_pred, _ = row # only interested in a few parameters of each row
+  plt.imshow(img)
+  plt.title(f"actual: {y_true}, pred: {y_pred} \nprob: {pred_prob:.2f}")
+  plt.axis(False)
+plt.savefig('plot.png', format='png')
+subprocess.run(['mv', 'plot.png', imagePath + "/plot3_2.png"])
+
