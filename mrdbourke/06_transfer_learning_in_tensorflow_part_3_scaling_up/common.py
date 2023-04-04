@@ -25,3 +25,6 @@ test_data = tf.keras.preprocessing.image_dataset_from_directory(test_dir,
                                                                 shuffle=False) # don't shuffle test data for prediction analysis
 
 imagePath = "/home/amr/webserver/HaneinWebserver/Public/images"
+print("")
+print("")
+
