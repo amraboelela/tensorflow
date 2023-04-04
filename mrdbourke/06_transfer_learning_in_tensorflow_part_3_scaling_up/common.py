@@ -9,6 +9,7 @@ from tensorflow.keras.layers.experimental import preprocessing
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
+import random
 
 train_dir = "data/101_food_classes_10_percent/train/"
 test_dir = "data/101_food_classes_10_percent/test/"

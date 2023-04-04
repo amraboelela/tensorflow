@@ -1,5 +1,5 @@
 from model3_evaluate_load import *
-import random
+from model3_load import *
 
 plt.figure(figsize=(17, 10))
 for i in range(3):
