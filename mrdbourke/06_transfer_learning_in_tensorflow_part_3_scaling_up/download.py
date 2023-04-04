@@ -14,9 +14,10 @@ def download_resource(resource):
 subprocess.run(['mkdir', '-p', 'data'])
 download_resource('101_food_classes_10_percent')
 walk_through_dir("data/101_food_classes_10_percent")
+print("")
 
 download_resource('custom_food_images')
 # Get custom food images filepaths
 custom_food_images = ["custom_food_images/" + img_path for img_path in os.listdir("data/custom_food_images")]
-print("custom_food_images: " + str(custom_food_images))
+print(custom_food_images)
 
