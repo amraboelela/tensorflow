@@ -289,5 +289,4 @@ def download_resource(resource):
         subprocess.run(['wget', 'https://storage.googleapis.com/ztm_tf_course/' + resource + '.zip'])
         subprocess.run(['unzip', resource + '.zip'])
         subprocess.run(['rm', resource + '.zip'])
-        subprocess.run(['rm', '-r', 'data/__MACOSX'])
         os.chdir("..")
