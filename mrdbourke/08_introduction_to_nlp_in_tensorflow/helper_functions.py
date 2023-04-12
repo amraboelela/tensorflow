@@ -283,9 +283,8 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
 
 def download_resource(resource):
     if not path.exists('data/' + resource):
-        subprocess.run(['rm', resource + '.zip'])
         subprocess.run(['wget', 'https://storage.googleapis.com/ztm_tf_course/' + resource + '.zip'])
-        subprocess.run(['unzip', resource])
-        subprocess.run(['mv', resource, 'data'])
-        subprocess.run(['rm', resource + '.zip'])
-        subprocess.run(['rm', '-r', '__MACOSX'])
+        subprocess.run(['mv', resource + '.zip', 'data'])
+        subprocess.run(['unzip', 'data/' + resource + '.zip'])
+        subprocess.run(['rm', 'data/' + resource + '.zip'])
+        subprocess.run(['rm', '-r', 'data/__MACOSX'])

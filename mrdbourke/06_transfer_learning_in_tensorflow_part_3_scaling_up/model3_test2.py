@@ -1,7 +1,7 @@
 from model3_evaluate_load import *
 from model3_load import *
 
-download_resource('food_vision/custom_food_images')
+download_resource('custom_food_images')
 
 # Get custom food images filepaths
 custom_food_images = ["data/custom_food_images/" + img_path for img_path in os.listdir("data/custom_food_images")]
