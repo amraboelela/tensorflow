@@ -15,3 +15,8 @@ print("test_df.head()")
 print(str(test_df.head()))
 print("")
 
+# How many examples of each class?
+print("train_df.target.value_counts()")
+print(str(train_df.target.value_counts()))
+print("")
+
