@@ -20,3 +20,8 @@ print("train_df.target.value_counts()")
 print(str(train_df.target.value_counts()))
 print("")
 
+# How many samples total?
+print(f"Total training samples: {len(train_df)}")
+print(f"Total test samples: {len(test_df)}")
+print(f"Total samples: {len(train_df) + len(test_df)}")
+
