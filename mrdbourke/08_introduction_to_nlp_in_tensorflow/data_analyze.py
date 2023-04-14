@@ -4,8 +4,6 @@ print("train_df.head()")
 print(str(train_df.head()))
 print("")
 
-# Shuffle training dataframe
-train_df_shuffled = train_df.sample(frac=1, random_state=42) # shuffle with random_state=42 for reproducibility
 print("train_df_shuffled.head()")
 print(str(train_df_shuffled.head()))
 print("")
@@ -34,3 +32,7 @@ for row in train_df_shuffled[["text", "target"]][random_index:random_index+5].it
   print("---\n")
 print("")
 
+# Check the lengths
+print("len(train_sentences), len(train_labels), len(val_sentences), len(val_labels)")
+len(train_sentences), len(train_labels), len(val_sentences), len(val_labels)
+print("")
