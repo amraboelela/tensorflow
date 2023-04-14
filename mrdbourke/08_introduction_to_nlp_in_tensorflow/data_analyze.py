@@ -36,3 +36,8 @@ print("")
 print("len(train_sentences), len(train_labels), len(val_sentences), len(val_labels) :")
 print(f"{len(train_sentences)}, {len(train_labels)}, {len(val_sentences)}, {len(val_labels)}")
 print("")
+
+# View the first 10 training sentences and their labels
+print("train_sentences[:10], train_labels[:10]: ")
+print(f"{train_sentences[:10]}, {train_labels[:10]}")
+print("")
