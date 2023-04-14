@@ -33,6 +33,6 @@ for row in train_df_shuffled[["text", "target"]][random_index:random_index+5].it
 print("")
 
 # Check the lengths
-print("len(train_sentences), len(train_labels), len(val_sentences), len(val_labels)")
-len(train_sentences), len(train_labels), len(val_sentences), len(val_labels)
+print("len(train_sentences), len(train_labels), len(val_sentences), len(val_labels) :")
+print(f"{len(train_sentences)}, {len(train_labels)}, {len(val_sentences)}, {len(val_labels)}")
 print("")
