@@ -281,12 +281,12 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
   if savefig:
     fig.savefig("confusion_matrix.png")
 
-def download_resource(resource):
+def download_resource(directory, resource):
     if not path.exists('data/' + resource):
         subprocess.run(['mkdir', '-p', 'data'])
         os.chdir("data")
         subprocess.run(['rm', resource + '.zip'])
-        subprocess.run(['wget', 'https://storage.googleapis.com/ztm_tf_course/' + resource])
+        subprocess.run(['wget', 'https://storage.googleapis.com/ztm_tf_course/' + directory + '/' + resource])
         subprocess.run(['unzip', resource + '.zip'])
         subprocess.run(['rm', resource + '.zip'])
         os.chdir("..")
