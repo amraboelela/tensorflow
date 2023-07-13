@@ -286,7 +286,7 @@ def download_resource(resource):
         subprocess.run(['mkdir', '-p', 'data'])
         os.chdir("data")
         subprocess.run(['rm', resource + '.zip'])
-        subprocess.run(['wget', 'https://storage.googleapis.com/ztm_tf_course/' + resource + '.zip'])
+        subprocess.run(['wget', 'https://storage.googleapis.com/ztm_tf_course/' + resource])
         subprocess.run(['unzip', resource + '.zip'])
         subprocess.run(['rm', resource + '.zip'])
         os.chdir("..")
