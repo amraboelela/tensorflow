@@ -10,6 +10,8 @@ import datetime
 import os
 from os import path
 import subprocess
+import matplotlib.image as mpimg
+import random
 
 # Create a function to import an image and resize it to be able to be used with our model
 def load_and_prep_image(filename, img_shape=224, scale=True):
@@ -38,6 +40,23 @@ def load_and_prep_image(filename, img_shape=224, scale=True):
 # Note: The following confusion matrix code is a remix of Scikit-Learn's
 # plot_confusion_matrix function - https://scikit-learn.org/stable/modules/generated/sklearn.metrics.plot_confusion_matrix.html
   
+def view_random_image(target_dir, target_class):
+  # Setup target directory (we'll view images from here)
+  target_folder = target_dir+target_class
+
+  # Get a random image path
+  random_image = random.sample(os.listdir(target_folder), 1)
+
+  # Read in the image and plot it using matplotlib
+  img = mpimg.imread(target_folder + "/" + random_image[0])
+  plt.imshow(img)
+  plt.title(target_class)
+  plt.axis("off");
+  print(f"Image shape: {img.shape}") # show the shape of the image
+  plt.savefig('plot.png', format='png')
+  #subprocess.run(['open', 'plot.png'])
+  return img
+  
 # Make a function to predict on images and plot them (works with multi-class)
 def pred_and_plot(model, filename, class_names):
   """
@@ -59,7 +78,9 @@ def pred_and_plot(model, filename, class_names):
   # Plot the image and predicted class
   plt.imshow(img)
   plt.title(f"Prediction: {pred_class}")
-  plt.axis(False);
+  plt.axis(False)
+  plt.savefig('plot.png', format='png')
+  #subprocess.run(['open', 'plot.png'])
 
 def create_tensorboard_callback(dir_name, experiment_name):
   """
@@ -114,6 +135,7 @@ def plot_loss_curves(history):
   plt.xlabel('Epochs')
   plt.legend()
   plt.savefig('plot.png', format='png')
+  #subprocess.run(['open', 'plot.png'])
 
 def compare_historys(original_history, new_history, initial_epochs=5):
     """
@@ -159,6 +181,7 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.xlabel('epoch')
     plt.show()
     plt.savefig('plot.png', format='png')
+    #subprocess.run(['open', 'plot.png'])
 
 # Walk through an image classification directory and find out how many files (images)
 # are in each subdirectory.
@@ -280,6 +303,7 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
   # Save the figure to the current working directory
   if savefig:
     fig.savefig("confusion_matrix.png")
+    #subprocess.run(['open', 'confusion_matrix.png'])
 
 def download_resource(directory, resource):
     if not path.exists('data/' + resource):
