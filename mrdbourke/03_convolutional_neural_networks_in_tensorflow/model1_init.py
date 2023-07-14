@@ -1,7 +1,7 @@
 from common import *
 
 # Create a CNN model (same as Tiny VGG - https://poloclub.github.io/cnn-explainer/)
-model_1 = tf.keras.models.Sequential([
+model1 = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(filters=10,
                          kernel_size=3, # can also be (3, 3)
                          activation="relu",
@@ -17,6 +17,6 @@ model_1 = tf.keras.models.Sequential([
 ])
 
 # Compile the model
-model_1.compile(loss="binary_crossentropy",
+model1.compile(loss="binary_crossentropy",
               optimizer=tf.keras.optimizers.Adam(),
               metrics=["accuracy"])
