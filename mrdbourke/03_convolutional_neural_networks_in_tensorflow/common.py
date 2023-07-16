@@ -21,6 +21,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
 from tensorflow.keras import Sequential
+import pathlib
 
 # Set the seed
 tf.random.set_seed(42)
@@ -50,6 +51,12 @@ train_data_augmented = train_datagen_augmented.flow_from_directory(train_dir,
                                                                    class_mode='binary',
                                                                    shuffle=False) # Don't shuffle for demonstration purposes, usually a good thing to shuffle
 
+train_data_augmented_shuffled = train_datagen_augmented.flow_from_directory(train_dir,
+                                                                   target_size=(224, 224),
+                                                                   batch_size=32,
+                                                                   class_mode='binary',
+                                                                   shuffle=True) # Shuffle data (default)
+                                                                   
 # Create non-augmented data batches
 print("Non-augmented training images:")
 train_data = train_datagen.flow_from_directory(train_dir,
@@ -63,6 +70,10 @@ test_data = test_datagen.flow_from_directory(test_dir,
                                              target_size=(224, 224),
                                              batch_size=32,
                                              class_mode='binary')
+
+data_dir = pathlib.Path("data/pizza_steak/train/") # turn our training path into a Python path
+class_names = np.array(sorted([item.name for item in data_dir.glob('*')])) # created a list of class_names from the subdirectories
+print(class_names)
 
 print("")
 print("")
