@@ -12,7 +12,7 @@ plot_curves(history8, 8)
 # Get the class names
 print(class_names)
 
-download_resource('https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/images/03-steak.jpeg')
+download('https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/images/03-steak.jpeg')
 
 steak = mpimg.imread("data/03-steak.jpeg")
 plt.figure()
@@ -24,7 +24,7 @@ plt.savefig('data/image.png', format='png')
 print(f"steak.shape: {steak.shape}")
 
 # Load in and preprocess our custom image
-steak = load_and_prep_image("data/03-steak.jpeg")
+steak = load_and_prep_image("03-steak.jpeg")
 print(f"steak: {steak}")
 
 # Add an extra axis
@@ -41,4 +41,11 @@ print(f"pred: {pred}")
 # We can index the predicted class by rounding the prediction probability
 pred_class = class_names[int(tf.round(pred)[0][0])]
 print(f"pred_class: {pred_class}")
+
+# Test our model on a custom image
+pred_and_plot(model8, "03-steak.jpeg", class_names)
+
+# Download another test image and make a prediction on it
+download('https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/images/03-pizza-dad.jpeg')
+pred_and_plot(model8, "03-pizza-dad.jpeg", class_names)
 

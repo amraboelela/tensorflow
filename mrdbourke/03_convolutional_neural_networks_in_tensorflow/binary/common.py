@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../modules')
+sys.path.append('../../modules')
 
 import numpy as np
 import pandas as pd
@@ -22,6 +22,9 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
 from tensorflow.keras import Sequential
 import pathlib
+
+download("https://storage.googleapis.com/ztm_tf_course/food_vision/pizza_steak.zip")
+#walk_through_dir("data/nlp_getting_started")
 
 # Set the seed
 tf.random.set_seed(42)

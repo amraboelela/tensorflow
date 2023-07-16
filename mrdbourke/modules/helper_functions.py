@@ -26,7 +26,7 @@ def load_and_prep_image(filename, img_shape=224, scale=True):
   scale (bool): whether to scale pixel values to range(0, 1), default True
   """
   # Read in the image
-  img = tf.io.read_file(filename)
+  img = tf.io.read_file("data/images/" + filename)
   # Decode it into a tensor
   img = tf.io.decode_image(img)
   # Resize the image
@@ -53,7 +53,7 @@ def view_random_image(target_dir, target_class):
   plt.title(target_class)
   plt.axis("off");
   print(f"Image shape: {img.shape}") # show the shape of the image
-  plt.savefig('data/random_image.png', format='png')
+  plt.savefig('data/images/random_image.png', format='png')
   return img
   
 # Make a function to predict on images and plot them (works with multi-class)
@@ -78,7 +78,10 @@ def pred_and_plot(model, filename, class_names):
   plt.imshow(img)
   plt.title(f"Prediction: {pred_class}")
   plt.axis(False)
-  plt.savefig('data/plot.png', format='png')
+      
+  filenameTokens = filename.split(".")
+  imageName = filenameTokens[0]
+  plt.savefig('data/images/' + imageName + '.png', format='png')
 
 def create_tensorboard_callback(dir_name, experiment_name):
   """
@@ -128,7 +131,7 @@ def plot_loss_curves(history, index):
   plt.title('Loss')
   plt.xlabel('Epochs')
   plt.legend()
-  plt.savefig('data/loss' + str(index) + '.png', format='png')
+  plt.savefig('data/images/loss' + str(index) + '.png', format='png')
 
 def plot_accuracy_curves(history, index):
   """
@@ -154,7 +157,7 @@ def plot_accuracy_curves(history, index):
   plt.title('Accuracy')
   plt.xlabel('Epochs')
   plt.legend()
-  plt.savefig('data/accuracy' + str(index) + '.png', format='png')
+  plt.savefig('data/images/accuracy' + str(index) + '.png', format='png')
 
 def compare_historys(original_history, new_history, initial_epochs=5):
     """
@@ -199,7 +202,7 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
     plt.show()
-    plt.savefig('data/historys.png', format='png')
+    plt.savefig('data/images/historys.png', format='png')
 
 # Walk through an image classification directory and find out how many files (images)
 # are in each subdirectory.
@@ -323,13 +326,13 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
     fig.savefig("confusion_matrix.png")
     #subprocess.run(['open', 'confusion_matrix.png'])
 
-def download_resource(url):
+def download(url):
     urlTokens = url.split("/")
     resourceFile = urlTokens[-1]
-    resourceTokens = resourceFile.split("0")
+    resourceTokens = resourceFile.split(".")
     resource = resourceTokens[0]
     resourceExtension = resourceTokens[-1]
-    subprocess.run(['mkdir', '-p', 'data'])
+    subprocess.run(['mkdir', '-p', 'data/images'])
     os.chdir("data")
     if resourceExtension == "zip":
         if not path.exists(resource):

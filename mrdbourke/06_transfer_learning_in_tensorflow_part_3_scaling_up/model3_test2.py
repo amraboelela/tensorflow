@@ -1,7 +1,7 @@
 from model3_evaluate_load import *
 from model3_load import *
 
-download_resource("https://storage.googleapis.com/ztm_tf_course/food_vision/custom_food_images.zip")
+download("https://storage.googleapis.com/ztm_tf_course/food_vision/custom_food_images.zip")
 
 # Get custom food images filepaths
 custom_food_images = ["data/custom_food_images/" + img_path for img_path in os.listdir("data/custom_food_images")]
