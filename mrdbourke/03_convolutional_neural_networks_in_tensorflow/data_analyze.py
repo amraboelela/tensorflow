@@ -1,43 +1,21 @@
+import sys
+sys.path.append('../modules')
+from helper_functions import *
 from common import *
 
-print("train_df.head()")
-print(str(train_df.head()))
-print("")
+# Get data batch samples
+images, labels = train_data.next()
+augmented_images, augmented_labels = train_data_augmented.next() # Note: labels aren't augmented, they stay the same
+print(f"len(images): {len(images)} len(labels): {len(labels)}")
 
-print("train_df_shuffled.head()")
-print(str(train_df_shuffled.head()))
-print("")
+# Get the first two images
+print(f"{images[:2]}, {images[0].shape}")
 
-# The test data doesn't have a target (that's what we'd try to predict)
-print("test_df.head()")
-print(str(test_df.head()))
-print("")
+# Check lengths of training and test data generators
+print(f"{len(train_data)}, {len(test_data)}")
 
-# How many examples of each class?
-print("train_df.target.value_counts()")
-print(str(train_df.target.value_counts()))
-print("")
-
-# How many samples total?
-print(f"Total training samples: {len(train_df)}")
-print(f"Total test samples: {len(test_df)}")
-print(f"Total samples: {len(train_df) + len(test_df)}")
-print("")
-
-random_index = random.randint(0, len(train_df)-5) # create random indexes not higher than the total number of samples
-for row in train_df_shuffled[["text", "target"]][random_index:random_index+5].itertuples():
-  _, text, target = row
-  print(f"Target: {target}", "(real disaster)" if target > 0 else "(not real disaster)")
-  print(f"Text:\n{text}\n")
-  print("---\n")
-print("")
-
-# Check the lengths
-print("len(train_sentences), len(train_labels), len(val_sentences), len(val_labels) :")
-print(f"{len(train_sentences)}, {len(train_labels)}, {len(val_sentences)}, {len(val_labels)}")
-print("")
-
-# View the first 10 training sentences and their labels
-print("train_sentences[:10], train_labels[:10]: ")
-print(f"{train_sentences[:10]}, {train_labels[:10]}")
-print("")
+plt.figure()
+plt.subplot(1, 2, 1)
+steak_img = view_random_image("data/pizza_steak/train/", "steak")
+plt.subplot(1, 2, 2)
+pizza_img = view_random_image("data/pizza_steak/train/", "pizza")

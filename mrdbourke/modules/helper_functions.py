@@ -53,8 +53,7 @@ def view_random_image(target_dir, target_class):
   plt.title(target_class)
   plt.axis("off");
   print(f"Image shape: {img.shape}") # show the shape of the image
-  plt.savefig('plot.png', format='png')
-  #subprocess.run(['open', 'plot.png'])
+  plt.savefig('data/random_image.png', format='png')
   return img
   
 # Make a function to predict on images and plot them (works with multi-class)
@@ -79,8 +78,7 @@ def pred_and_plot(model, filename, class_names):
   plt.imshow(img)
   plt.title(f"Prediction: {pred_class}")
   plt.axis(False)
-  plt.savefig('plot.png', format='png')
-  #subprocess.run(['open', 'plot.png'])
+  plt.savefig('data/plot.png', format='png')
 
 def create_tensorboard_callback(dir_name, experiment_name):
   """
@@ -103,7 +101,11 @@ def create_tensorboard_callback(dir_name, experiment_name):
 # Plot the validation and training data separately
 import matplotlib.pyplot as plt
 
-def plot_loss_curves(history):
+def plot_curves(history, index):
+    plot_loss_curves(history, index)
+    plot_accuracy_curves(history, index)
+
+def plot_loss_curves(history, index):
   """
   Returns separate loss curves for training and validation metrics.
 
@@ -126,6 +128,24 @@ def plot_loss_curves(history):
   plt.title('Loss')
   plt.xlabel('Epochs')
   plt.legend()
+  plt.savefig('data/loss' + str(index) + '.png', format='png')
+
+def plot_accuracy_curves(history, index):
+  """
+  Returns separate loss curves for training and validation metrics.
+
+  Args:
+    history: TensorFlow model History object (see: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/History)
+  """
+  loss = history['loss']
+  print("loss: " + str(loss))
+  val_loss = history['val_loss']
+
+  accuracy = history['accuracy']
+  print("accuracy: " + str(accuracy))
+  val_accuracy = history['val_accuracy']
+
+  epochs = range(len(history['loss']))
 
   # Plot accuracy
   plt.figure()
@@ -134,8 +154,7 @@ def plot_loss_curves(history):
   plt.title('Accuracy')
   plt.xlabel('Epochs')
   plt.legend()
-  plt.savefig('plot.png', format='png')
-  #subprocess.run(['open', 'plot.png'])
+  plt.savefig('data/accuracy' + str(index) + '.png', format='png')
 
 def compare_historys(original_history, new_history, initial_epochs=5):
     """
@@ -180,8 +199,7 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
     plt.show()
-    plt.savefig('plot.png', format='png')
-    #subprocess.run(['open', 'plot.png'])
+    plt.savefig('data/historys.png', format='png')
 
 # Walk through an image classification directory and find out how many files (images)
 # are in each subdirectory.
