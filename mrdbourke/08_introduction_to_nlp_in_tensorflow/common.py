@@ -1,18 +1,8 @@
-
-import numpy as np
-import pandas as pd
-import pickle
-import random
-import subprocess
-import tensorflow as tf
-
+import sys
+sys.path.append('../modules')
 from helper_functions import *
-from os import path
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
-from tensorflow.keras import layers
-from tensorflow.keras.layers.experimental import preprocessing
-from tensorflow.keras.models import load_model, Sequential
+
+download("https://storage.googleapis.com/ztm_tf_course/food_vision/nlp_getting_started.zip")
 
 # Turn .csv files into pandas DataFrame's
 train_df = pd.read_csv("data/train.csv")
