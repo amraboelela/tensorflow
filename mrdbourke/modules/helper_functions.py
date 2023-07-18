@@ -15,6 +15,7 @@ from tensorflow.keras import layers
 from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.utils import plot_model
 
 # Make the creating of our model a little easier
 from tensorflow.keras.optimizers import Adam
@@ -26,7 +27,21 @@ import itertools
 import matplotlib.pyplot as plt
 import datetime
 import matplotlib.image as mpimg
-
+  
+def mean_absolute_error(y_test, y_pred):
+  """
+  Calculuates mean absolute error between y_test and y_preds.
+  """
+  return tf.metrics.mean_absolute_error(y_test,
+                                        y_pred)
+  
+def mean_squared_error(y_test, y_pred):
+  """
+  Calculates mean squared error between y_test and y_preds.
+  """
+  return tf.metrics.mean_squared_error(y_test,
+                                       y_pred)
+                                       
 # Create a function to import an image and resize it to be able to be used with our model
 def load_and_prep_image(filename, img_shape=224, scale=True):
   """
@@ -115,9 +130,27 @@ def create_tensorboard_callback(dir_name, experiment_name):
   print(f"Saving TensorBoard log files to: {log_dir}")
   return tensorboard_callback
 
+def plot_predictions(train_data,
+                     train_labels,
+                     test_data,
+                     test_labels,
+                     predictions,
+                     index):
+  """
+  Plots training data, test data and compares predictions.
+  """
+  plt.figure(figsize=(10, 7))
+  # Plot training data in blue
+  plt.scatter(train_data, train_labels, c="b", label="Training data")
+  # Plot test data in green
+  plt.scatter(test_data, test_labels, c="g", label="Testing data")
+  # Plot the predictions in red (predictions were made on the test data)
+  plt.scatter(test_data, predictions, c="r", label="Predictions")
+  # Show the legend
+  plt.legend()
+  plt.savefig('data/images/predictions' + str(index) + '.png', format='png')
+  
 # Plot the validation and training data separately
-import matplotlib.pyplot as plt
-
 def plot_curves(history, index):
     plot_loss_curves(history, index)
     plot_accuracy_curves(history, index)

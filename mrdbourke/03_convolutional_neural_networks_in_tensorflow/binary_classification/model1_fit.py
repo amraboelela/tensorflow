@@ -4,8 +4,8 @@ from model1_init import *
 history1 = model1.fit(train_data,
                         epochs=5,
                         steps_per_epoch=len(train_data),
-                        validation_data=valid_data,
-                        validation_steps=len(valid_data))
+                        validation_data=test_data,
+                        validation_steps=len(test_data))
 
 model1.save_weights('data/model1.h5')
 
