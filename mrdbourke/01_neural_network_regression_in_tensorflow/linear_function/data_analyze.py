@@ -65,10 +65,3 @@ plt.scatter(X_test, y_test, c='g', label='Testing data')
 # Show the legend
 plt.legend()
 plt.savefig('data/images/train_test.png', format='png')
-
-print("")
-print("# Read in the insurance dataset")
-insurance = pd.read_csv("https://raw.githubusercontent.com/stedy/Machine-Learning-with-R-datasets/master/insurance.csv")
-
-print("# Check out the insurance dataset")
-print(insurance.head())
