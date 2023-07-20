@@ -1,7 +1,7 @@
 from model2_init import *
 
 # Fit the model and save the history (we can plot this)
-history2 = model2.fit(X_train, y_train, epochs=100, verbose=0)
+history2 = model2.fit(X_train_oh, y_train_oh, epochs=100, verbose=0)
 
 model2.save('data/model2.h5')
 

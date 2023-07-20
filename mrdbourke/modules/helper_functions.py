@@ -1,33 +1,35 @@
 ### We create a bunch of helpful functions throughout the course.
 ### Storing them here so they're easily accessible.
 
-import numpy as np
-import pandas as pd
-import pickle
-import random
-import subprocess
-import tensorflow as tf
 import os
 from os import path
+
+from sklearn.compose import make_column_transformer
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+
+import tensorflow as tf
 from tensorflow.keras import layers
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
 from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.keras.models import load_model
+from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.utils import plot_model
 
-# Make the creating of our model a little easier
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
-from tensorflow.keras import Sequential
-import pathlib
-
-import itertools
-import matplotlib.pyplot as plt
 import datetime
+import itertools
 import matplotlib.image as mpimg
-  
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pathlib
+import pickle
+import random
+import subprocess
+
 def mean_absolute_error(y_test, y_pred):
   """
   Calculuates mean absolute error between y_test and y_preds.

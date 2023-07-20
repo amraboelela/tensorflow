@@ -14,7 +14,7 @@ with open('data/history2_2.pkl', 'rb') as f:
     
 print("")
 print("# Evaluate the model trained for 200 total epochs")
-model2_loss, model2_mae = model2.evaluate(X_test, y_test)
+model2_loss, model2_mae = model2.evaluate(X_test_oh, y_test_oh)
 print(model2_loss, model2_mae)
 
 print("")

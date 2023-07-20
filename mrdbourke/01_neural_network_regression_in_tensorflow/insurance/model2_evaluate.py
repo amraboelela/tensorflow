@@ -7,7 +7,7 @@ with open('data/history2.pkl', 'rb') as f:
     history2 = pickle.load(f)
     
 # Check the results of the insurance model
-model2.evaluate(X_test, y_test)
+model2.evaluate(X_test_oh, y_test_oh)
 
 # Plot history (also known as a loss curve)
 pd.DataFrame(history2).plot()

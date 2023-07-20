@@ -3,7 +3,7 @@ from model2_init import *
 model2 = load_model("data/model2.h5")
 
 # Try training for a little longer (100 more epochs)
-history2_2 = model2.fit(X_train, y_train, epochs=100, verbose=0)
+history2_2 = model2.fit(X_train_oh, y_train_oh, epochs=100, verbose=0)
 
 model2.save('data/model2.h5')
 
