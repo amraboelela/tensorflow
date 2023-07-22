@@ -1,6 +1,6 @@
 from model2_init import *
 
-model2.load_weights('data/model2.h5')
+model2.load_weights('data/model2.keras')
 
 # Load the saved history object from a file
 with open('data/history2.pkl', 'rb') as f:

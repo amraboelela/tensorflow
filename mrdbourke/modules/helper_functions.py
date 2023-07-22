@@ -90,6 +90,74 @@ def view_random_image(target_dir, target_class):
   plt.savefig('data/images/random_image.png', format='png')
   return img
   
+  
+# Create a function for plotting a random image along with its prediction
+def plot_random_image(model, images, true_labels, classes):
+  """Picks a random image, plots it and labels it with a predicted and truth label.
+
+  Args:
+    model: a trained model (trained on data similar to what's in images).
+    images: a set of random images (in tensor form).
+    true_labels: array of ground truth labels for images.
+    classes: array of class names for images.
+  
+  Returns:
+    A plot of a random image from `images` with a predicted class label from `model`
+    as well as the truth class label from `true_labels`.
+  """
+  # Setup random integer
+  i = random.randint(0, len(images))
+  
+  # Create predictions and targets
+  target_image = images[i]
+  pred_probs = model.predict(target_image.reshape(1, 28, 28)) # have to reshape to get into right size for model
+  pred_label = classes[pred_probs.argmax()]
+  true_label = classes[true_labels[i]]
+
+  plt.figure()
+  # Plot the target image
+  plt.imshow(target_image, cmap=plt.cm.binary)
+
+  # Change the color of the titles depending on if the prediction is right or wrong
+  if pred_label == true_label:
+    color = "green"
+  else:
+    color = "red"
+
+  # Add xlabel information (prediction/true label)
+  plt.xlabel("Pred: {} {:2.0f}% (True: {})".format(pred_label,
+                                                   100*tf.reduce_max(pred_probs),
+                                                   true_label),
+             color=color) # set the color to green or red
+  plt.savefig('data/images/random_image_predict.png', format='png')
+    
+# Make a function to predict on images and plot them (works with multi-class)
+def pred_and_plot(model, filename, class_names):
+  """
+  Imports an image located at filename, makes a prediction on it with
+  a trained model and plots the image with the predicted class as the title.
+  """
+  # Import the target image and preprocess it
+  img = load_and_prep_image(filename)
+
+  # Make a prediction
+  pred = model.predict(tf.expand_dims(img, axis=0))
+
+  # Get the predicted class
+  if len(pred[0]) > 1: # check for multi-class
+    pred_class = class_names[pred.argmax()] # if more than one output, take the max
+  else:
+    pred_class = class_names[int(tf.round(pred)[0][0])] # if only one output, round
+
+  # Plot the image and predicted class
+  plt.imshow(img)
+  plt.title(f"Prediction: {pred_class}")
+  plt.axis(False)
+      
+  filenameTokens = filename.split(".")
+  imageName = filenameTokens[0]
+  plt.savefig('data/images/' + imageName + '.png', format='png')
+  
 def plot_decision_boundary(model, X, y, index):
   """
   Plots the decision boundary created by a model predicting on X.
@@ -124,33 +192,6 @@ def plot_decision_boundary(model, X, y, index):
   plt.xlim(xx.min(), xx.max())
   plt.ylim(yy.min(), yy.max())
   plt.savefig('data/images/decision_boundary' + str(index) + '.png', format='png')
-  
-# Make a function to predict on images and plot them (works with multi-class)
-def pred_and_plot(model, filename, class_names):
-  """
-  Imports an image located at filename, makes a prediction on it with
-  a trained model and plots the image with the predicted class as the title.
-  """
-  # Import the target image and preprocess it
-  img = load_and_prep_image(filename)
-
-  # Make a prediction
-  pred = model.predict(tf.expand_dims(img, axis=0))
-
-  # Get the predicted class
-  if len(pred[0]) > 1: # check for multi-class
-    pred_class = class_names[pred.argmax()] # if more than one output, take the max
-  else:
-    pred_class = class_names[int(tf.round(pred)[0][0])] # if only one output, round
-
-  # Plot the image and predicted class
-  plt.imshow(img)
-  plt.title(f"Prediction: {pred_class}")
-  plt.axis(False)
-      
-  filenameTokens = filename.split(".")
-  imageName = filenameTokens[0]
-  plt.savefig('data/images/' + imageName + '.png', format='png')
 
 def create_tensorboard_callback(dir_name, experiment_name):
   """
@@ -339,7 +380,7 @@ def calculate_results(y_true, y_pred):
   return model_results
 
 # Our function needs a different name to sklearn's plot_confusion_matrix
-def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_size=15, norm=False, savefig=False):
+def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_size=15, norm=True):
   """Makes a labelled confusion matrix comparing predictions and ground truth labels.
 
   If classes is passed, confusion matrix will be labelled, if not, integer class values
@@ -414,8 +455,7 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
               size=text_size)
 
   # Save the figure to the current working directory
-  if savefig:
-    fig.savefig("data/images/confusion_matrix.png")
+  fig.savefig("data/images/confusion_matrix.png")
 
 def download(url):
     urlTokens = url.split("/")

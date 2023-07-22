@@ -7,7 +7,7 @@ history_all_classes_10_percent = model.fit(train_data_all_10_percent,
                                            validation_steps=int(0.15 * len(test_data)), # evaluate on smaller portion of test data
                                            callbacks=[checkpoint_callback]) # save best model weights to file
 
-model.save_weights('data/model1.h5')
+model.save_weights('data/model1.keras')
 
 # Save the history to a file
 with open('data/history_all_classes_10_percent.pkl', 'wb') as file:

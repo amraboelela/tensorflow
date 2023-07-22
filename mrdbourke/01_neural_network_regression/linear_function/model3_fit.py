@@ -5,4 +5,4 @@ from model3_init import *
 
 model3.fit(tf.expand_dims(X_train, axis=-1), y_train, epochs=100)
 
-model3.save('data/model3.h5')
+model3.save('data/model3.keras')

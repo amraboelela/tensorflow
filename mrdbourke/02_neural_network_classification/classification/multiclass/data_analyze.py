@@ -22,9 +22,6 @@ print("")
 print("# Check our samples label")
 print(train_labels[7])
 
-class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
-               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
-
 print("")
 print("# How many classes are there (this'll be our output shape)?")
 print(len(class_names))
@@ -35,3 +32,14 @@ plt.figure()
 plt.imshow(train_data[17], cmap=plt.cm.binary) # change the colours to black & white
 plt.title(class_names[train_labels[17]])
 plt.savefig('data/images/train_data17.png', format='png')
+
+print("")
+print("# Plot multiple random images of fashion MNIST")
+plt.figure(figsize=(7, 7))
+for i in range(4):
+  ax = plt.subplot(2, 2, i + 1)
+  rand_index = random.choice(range(len(train_data)))
+  plt.imshow(train_data[rand_index], cmap=plt.cm.binary)
+  plt.title(class_names[train_labels[rand_index]])
+  plt.axis(False)
+plt.savefig('data/images/random_images.png', format='png')

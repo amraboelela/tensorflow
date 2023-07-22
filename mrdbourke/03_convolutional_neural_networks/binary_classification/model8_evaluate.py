@@ -1,6 +1,6 @@
 from model8_init import *
 
-model8.load_weights('data/model8.h5')
+model8.load_weights('data/model8.keras')
 
 # Load the saved history object from a file
 with open('data/history8.pkl', 'rb') as f:

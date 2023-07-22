@@ -35,8 +35,8 @@ print("")
 print("# Save a model using the SavedModel format")
 model4.save('data/best_model_SavedModel_format')
 
-print("# Save a model using the HDF5 format")
-model4.save("data/best_model_HDF5_format.keras") # note the addition of '.h5' on the end
+print("# Save a model using the keras format")
+model4.save("data/best_model_HDF5_format.keras") # note the addition of '.keras' on the end
 
 print("# Load a model from the SavedModel format")
 loaded_saved_model = load_model("data/best_model_SavedModel_format")

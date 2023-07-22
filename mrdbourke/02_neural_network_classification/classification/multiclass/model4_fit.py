@@ -1,7 +1,10 @@
 from model4_init import *
 
 # Fit the model
-history4 = model4.fit(X, y, epochs=100)
+history4 = model4.fit(train_data,
+                      train_labels,
+                      epochs=20,
+                      validation_data=(test_data, test_labels))
 
 model4.save('data/model4.keras')
 

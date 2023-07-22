@@ -18,4 +18,4 @@ model7.compile(loss='binary_crossentropy',
                 metrics=['accuracy'])
 
 # model7 is built over model6
-model7.load_weights('data/model6.h5')
+model7.load_weights('data/model6.keras')

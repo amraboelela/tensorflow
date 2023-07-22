@@ -7,7 +7,7 @@ history7 = model7.fit(train_data,
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
-model7.save_weights('data/model7.h5')
+model7.save_weights('data/model7.keras')
 
 # Save the history to a file
 with open('data/history7.pkl', 'wb') as file:

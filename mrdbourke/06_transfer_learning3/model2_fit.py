@@ -9,7 +9,7 @@ history_all_classes_10_percent_fine_tune = model.fit(train_data_all_10_percent,
                                                      validation_steps=int(0.15 * len(test_data)), # validate on 15% of the test data
                                                      initial_epoch=4) # start from previous last epoch
 
-model.save_weights('data/model2.h5')
+model.save_weights('data/model2.keras')
 
 # Save the history to a file
 with open('data/history_all_classes_10_percent_fine_tune.pkl', 'wb') as file:

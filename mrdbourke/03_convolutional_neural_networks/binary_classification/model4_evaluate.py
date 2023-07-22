@@ -1,6 +1,6 @@
 from model4_init import *
 
-model4.load_weights('data/model4.h5')
+model4.load_weights('data/model4.keras')
 
 # Load the saved history object from a file
 with open('data/history4.pkl', 'rb') as f:
