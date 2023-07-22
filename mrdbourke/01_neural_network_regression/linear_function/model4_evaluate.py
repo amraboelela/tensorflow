@@ -1,6 +1,6 @@
 from common2 import *
 
-model4 = load_model("data/model4.h5")
+model4 = load_model("data/model4.keras")
 
 model4.summary()
 

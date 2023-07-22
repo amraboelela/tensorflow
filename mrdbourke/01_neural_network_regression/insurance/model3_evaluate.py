@@ -1,7 +1,7 @@
 from common import *
 from model2_evaluate2 import *
 
-model3 = load_model("data/model3.h5")
+model3 = load_model("data/model3.keras")
 
 print("")
 print("# Load the saved history object from a file")

@@ -1,6 +1,6 @@
 from common1 import *
 
-model1 = load_model("data/model1.h5")
+model1 = load_model("data/model1.keras")
 
 print("")
 print("# Check out X and y")

@@ -8,10 +8,11 @@ from sklearn.compose import make_column_transformer
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.datasets import make_circles
 
 import tensorflow as tf
-from tensorflow.keras import layers
-from tensorflow.keras import Sequential
+from tensorflow.keras import layers, Sequential
+from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
 from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.keras.models import load_model
@@ -30,6 +31,8 @@ import pickle
 import random
 import subprocess
 
+subprocess.run(['mkdir', '-p', 'data/images'])
+    
 def mean_absolute_error(y_test, y_pred):
   """
   Calculuates mean absolute error between y_test and y_preds.
@@ -86,6 +89,41 @@ def view_random_image(target_dir, target_class):
   print(f"Image shape: {img.shape}") # show the shape of the image
   plt.savefig('data/images/random_image.png', format='png')
   return img
+  
+def plot_decision_boundary(model, X, y, index):
+  """
+  Plots the decision boundary created by a model predicting on X.
+  This function has been adapted from two phenomenal resources:
+   1. CS231n - https://cs231n.github.io/neural-networks-case-study/
+   2. Made with ML basics - https://github.com/GokuMohandas/MadeWithML/blob/main/notebooks/08_Neural_Networks.ipynb
+  """
+  # Define the axis boundaries of the plot and create a meshgrid
+  x_min, x_max = X[:, 0].min() - 0.1, X[:, 0].max() + 0.1
+  y_min, y_max = X[:, 1].min() - 0.1, X[:, 1].max() + 0.1
+  xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100),
+                       np.linspace(y_min, y_max, 100))
+  
+  # Create X values (we're going to predict on all of these)
+  x_in = np.c_[xx.ravel(), yy.ravel()] # stack 2D arrays together: https://numpy.org/devdocs/reference/generated/numpy.c_.html
+  
+  # Make predictions using the trained model
+  y_pred = model.predict(x_in)
+
+  # Check for multi-class
+  if model.output_shape[-1] > 1: # checks the final dimension of the model's output shape, if this is > (greater than) 1, it's multi-class
+    print("doing multiclass classification...")
+    # We have to reshape our predictions to get them ready for plotting
+    y_pred = np.argmax(y_pred, axis=1).reshape(xx.shape)
+  else:
+    print("doing binary classifcation...")
+    y_pred = np.round(np.max(y_pred, axis=1)).reshape(xx.shape)
+  
+  # Plot decision boundary
+  plt.contourf(xx, yy, y_pred, cmap=plt.cm.RdYlBu, alpha=0.7)
+  plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap=plt.cm.RdYlBu)
+  plt.xlim(xx.min(), xx.max())
+  plt.ylim(yy.min(), yy.max())
+  plt.savefig('data/images/decision_boundary' + str(index) + '.png', format='png')
   
 # Make a function to predict on images and plot them (works with multi-class)
 def pred_and_plot(model, filename, class_names):
@@ -208,6 +246,12 @@ def plot_accuracy_curves(history, index):
   plt.legend()
   plt.savefig('data/images/accuracy' + str(index) + '.png', format='png')
 
+def sigmoid(x):
+  return 1 / (1 + tf.exp(-x))
+  
+def relu(x):
+  return tf.maximum(0, x)
+  
 def compare_historys(original_history, new_history, initial_epochs=5):
     """
     Compares two TensorFlow model History objects.
@@ -250,7 +294,6 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.legend(loc='upper right')
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
-    plt.show()
     plt.savefig('data/images/historys.png', format='png')
 
 # Walk through an image classification directory and find out how many files (images)
@@ -380,7 +423,6 @@ def download(url):
     resourceTokens = resourceFile.split(".")
     resource = resourceTokens[0]
     resourceExtension = resourceTokens[-1]
-    subprocess.run(['mkdir', '-p', 'data/images'])
     os.chdir("data")
     if resourceExtension == "zip":
         if not path.exists(resource):

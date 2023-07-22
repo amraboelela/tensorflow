@@ -1,6 +1,6 @@
 from common1 import *
 
-model2 = load_model("data/model2.h5")
+model2 = load_model("data/model2.keras")
 
 print("")
 print("# Remind ourselves of what X and y are")

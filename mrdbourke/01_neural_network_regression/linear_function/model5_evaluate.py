@@ -2,7 +2,7 @@
 from model3_evaluate import *
 from model4_evaluate import *
 
-model5 = load_model("data/model5.h5")
+model5 = load_model("data/model5.keras")
 
 model5.summary()
 
@@ -36,7 +36,7 @@ print("# Save a model using the SavedModel format")
 model4.save('data/best_model_SavedModel_format')
 
 print("# Save a model using the HDF5 format")
-model4.save("data/best_model_HDF5_format.h5") # note the addition of '.h5' on the end
+model4.save("data/best_model_HDF5_format.keras") # note the addition of '.h5' on the end
 
 print("# Load a model from the SavedModel format")
 loaded_saved_model = load_model("data/best_model_SavedModel_format")
@@ -50,7 +50,7 @@ print(mean_absolute_error(y_test, saved_model_preds.squeeze()).numpy() == mean_a
 
 print("")
 print("# Load a model from the HDF5 format")
-loaded_h5_model = load_model("data/best_model_HDF5_format.h5")
+loaded_h5_model = load_model("data/best_model_HDF5_format.keras")
 print(loaded_h5_model.summary())
 
 print("")
