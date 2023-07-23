@@ -36,19 +36,6 @@ print("")
 print("# Get all the pixel values between 0 & 1")
 print(img/255.)
 
-exit()
-
-# Get data batch samples
-images, labels = train_data.next()
-augmented_images, augmented_labels = train_data_augmented.next() # Note: labels aren't augmented, they stay the same
-print(f"len(images): {len(images)} len(labels): {len(labels)}")
-
-# Get the first two images
-print(f"{images[:2]}, {images[0].shape}")
-
-# Check lengths of training and test data generators
-print(f"{len(train_data)}, {len(test_data)}")
-
 # Another way to find out how many images are in a file
 num_steak_images_train = len(os.listdir("data/pizza_steak/train/steak"))
 
@@ -59,6 +46,26 @@ plt.subplot(1, 2, 1)
 steak_img = view_random_image("data/pizza_steak/train/", "steak")
 plt.subplot(1, 2, 2)
 pizza_img = view_random_image("data/pizza_steak/train/", "pizza")
+
+print("")
+print("# Get a sample of the training data batch")
+images, labels = train_data.next() # get the 'next' batch of images/labels
+print(len(images), len(labels))
+print("")
+print("# View the first batch of labels")
+print(labels)
+print("")
+print("# Get the first two images")
+print(images[:2], images[0].shape)
+
+augmented_images, augmented_labels = train_data_augmented.next() # Note: labels aren't augmented, they stay the same
+print(f"len(images): {len(images)} len(labels): {len(labels)}")
+
+# Get the first two images
+print(f"{images[:2]}, {images[0].shape}")
+
+# Check lengths of training and test data generators
+print(f"{len(train_data)}, {len(test_data)}")
 
 # Show original image and augmented image
 plt.figure()

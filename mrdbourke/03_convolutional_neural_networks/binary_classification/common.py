@@ -26,7 +26,7 @@ train_dir = "data/pizza_steak/train/"
 test_dir = "data/pizza_steak/test/"
 
 # Import data and augment it from training directory
-print("Augmented training images:")
+# Augmented training images
 train_data_augmented = train_datagen_augmented.flow_from_directory(train_dir,
                                                                    target_size=(224, 224),
                                                                    batch_size=32,
@@ -40,14 +40,14 @@ train_data_augmented_shuffled = train_datagen_augmented.flow_from_directory(trai
                                                                    shuffle=True) # Shuffle data (default)
                                                                    
 # Create non-augmented data batches
-print("Non-augmented training images:")
+# Non-augmented training images
 train_data = train_datagen.flow_from_directory(train_dir,
                                                target_size=(224, 224),
                                                batch_size=32,
                                                class_mode='binary',
                                                shuffle=False) # Don't shuffle for demonstration purposes
 
-print("Unchanged test images:")
+# Unchanged test images
 test_data = test_datagen.flow_from_directory(test_dir,
                                              target_size=(224, 224),
                                              batch_size=32,
