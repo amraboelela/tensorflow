@@ -13,12 +13,12 @@ plot_curves(history8, 8)
 print(class_names)
 
 download('https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/images/03-steak.jpeg')
-
-steak = mpimg.imread("data/03-steak.jpeg")
+            
+steak = mpimg.imread("data/images/03-steak.jpeg")
 plt.figure()
 plt.imshow(steak)
 plt.axis(False)
-plt.savefig('data/image.png', format='png')
+plt.savefig('data/images/03-steak.png', format='png')
 
 # Check the shape of our image
 print(f"steak.shape: {steak.shape}")
@@ -49,3 +49,4 @@ pred_and_plot(model8, "03-steak.jpeg", class_names)
 download('https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/images/03-pizza-dad.jpeg')
 pred_and_plot(model8, "03-pizza-dad.jpeg", class_names)
 
+exit()

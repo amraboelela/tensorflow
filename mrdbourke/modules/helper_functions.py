@@ -466,10 +466,14 @@ def download(url):
     os.chdir("data")
     if resourceExtension == "zip":
         if not path.exists(resource):
-            subprocess.run(['rm', resource + '.zip'])
             subprocess.run(['wget', url])
-            subprocess.run(['unzip', resource + '.zip'])
-            subprocess.run(['rm', resource + '.zip'])
+            subprocess.run(['unzip', resourceFile])
+            subprocess.run(['rm', resourceFile])
+    elif resourceExtension == "jpeg":
+        os.chdir("images")
+        if not path.exists(resourceFile):
+            subprocess.run(['wget', url])
+        os.chdir("..")
     else:
         if not path.exists(resourceFile):
             subprocess.run(['wget', url])

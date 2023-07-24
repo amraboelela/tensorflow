@@ -2,7 +2,7 @@ from model8_init import *
                         
 # Fit the model
 history8 = model8.fit(train_data_augmented_shuffled,
-                        epochs=10,
+                        epochs=5,
                         steps_per_epoch=len(train_data_augmented_shuffled),
                         validation_data=test_data,
                         validation_steps=len(test_data))
