@@ -149,6 +149,7 @@ def pred_and_plot(model, filename, class_names):
   else:
     pred_class = class_names[int(tf.round(pred)[0][0])] # if only one output, round
 
+  plt.figure()
   # Plot the image and predicted class
   plt.imshow(img)
   plt.title(f"Prediction: {pred_class}")
