@@ -1,5 +1,4 @@
-from model1_load import *
-from model2_load import *
+from model1_init import *
 
 print(model.summary())
 

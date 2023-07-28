@@ -1,4 +1,4 @@
-from model1_load import *
+from model1_init import *
 
 model1.load_weights('data/model1.keras')
 
