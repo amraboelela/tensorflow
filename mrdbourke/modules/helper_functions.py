@@ -20,6 +20,8 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.utils import plot_model
 
+import tensorflow_hub as hub
+
 import datetime
 import itertools
 import matplotlib.image as mpimg
@@ -231,6 +233,34 @@ def plot_predictions(train_data,
   # Show the legend
   plt.legend()
   plt.savefig('data/images/predictions' + str(index) + '.png', format='png')
+  
+IMAGE_SHAPE = (224, 224)
+
+def create_model(model_url, num_classes=10):
+  """Takes a TensorFlow Hub URL and creates a Keras Sequential model with it.
+  
+  Args:
+    model_url (str): A TensorFlow Hub feature extraction URL.
+    num_classes (int): Number of output neurons in output layer,
+      should be equal to number of target classes, default 10.
+
+  Returns:
+    An uncompiled Keras Sequential model with model_url as feature
+    extractor layer and Dense output layer with num_classes outputs.
+  """
+  # Download the pretrained model and save it as a Keras layer
+  feature_extractor_layer = hub.KerasLayer(model_url,
+                                           trainable=False, # freeze the underlying patterns
+                                           name='feature_extraction_layer',
+                                           input_shape=IMAGE_SHAPE+(3,)) # define the input image shape
+  
+  # Create our own model
+  model = tf.keras.Sequential([
+    feature_extractor_layer, # use the feature extraction layer as the base
+    layers.Dense(num_classes, activation='softmax', name='output_layer') # create our own output layer
+  ])
+
+  return model
   
 # Plot the validation and training data separately
 def plot_curves(history, index):
