@@ -1,5 +1,5 @@
 from model3_evaluate_load import *
-from model3_load import *
+from model3_init import *
 
 download("https://storage.googleapis.com/ztm_tf_course/food_vision/custom_food_images.zip")
 
