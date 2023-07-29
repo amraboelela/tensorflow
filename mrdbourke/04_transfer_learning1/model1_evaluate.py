@@ -7,5 +7,4 @@ with open('data/history1.pkl', 'rb') as f:
     history1 = pickle.load(f)
     
 print(model1.summary())
-plot_loss_curves(history1)
-
+plot_curves(history1, 1)
