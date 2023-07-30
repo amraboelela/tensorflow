@@ -8,3 +8,5 @@ with open('data/history3.pkl', 'rb') as f:
     
 print(model3.summary())
 plot_curves(history3, 3)
+
+subprocess.run(['tensorboard', '--logdir', './data/tensorflow_hub/'])
