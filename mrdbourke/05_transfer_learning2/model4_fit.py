@@ -7,7 +7,7 @@ history4 = model4.fit(
     validation_data=test_data_10_percent,
     validation_steps=int(0.25 * len(test_data_10_percent)), # do less steps per validation (quicker)
     callbacks=[
-        tensorboard_callback("transfer_learning/10_percent_fine_tune_last_10"),
+        tensorboard_callback("transfer_learning/10_percent_data_aug"),
         checkpoint_callback(4)
     ]
 )
