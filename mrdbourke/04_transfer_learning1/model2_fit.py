@@ -6,9 +6,7 @@ history2 = model2.fit(train_data_10_percent, # only use 10% of training data
                       steps_per_epoch=len(train_data_10_percent),
                       validation_data=test_data,
                       validation_steps=len(test_data),
-                      callbacks=[create_tensorboard_callback(dir_name="data/tensorflow_hub",
-                                                             # Track logs under different experiment name
-                                                             experiment_name="efficientnetB0")])
+                      callbacks=[tensorboard_callback("tensorflow_hub/efficientnetB0")])
 
 model2.save_weights('data/model2.keras')
 

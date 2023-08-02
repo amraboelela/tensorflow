@@ -40,6 +40,6 @@ http://10.0.0.138/
 ```
 
 ## References
-* https://github.com/mrdbourke/tensorflow-deep-learning
+* [https://github.com/mrdbourke/tensorflow-deep-learning](https://github.com/mrdbourke/tensorflow-deep-learning)
 
 

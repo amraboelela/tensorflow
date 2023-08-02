@@ -33,8 +33,20 @@ import pickle
 import random
 import subprocess
 
+IMAGE_SHAPE = (224, 224)
+
 subprocess.run(['mkdir', '-p', 'data/images'])
     
+# NEW: Newer versions of TensorFlow (2.10+) can use the tensorflow.keras.layers API directly for data augmentation
+data_augmentation = Sequential([
+  layers.RandomFlip("horizontal"),
+  layers.RandomRotation(0.2),
+  layers.RandomZoom(0.2),
+  layers.RandomHeight(0.2),
+  layers.RandomWidth(0.2),
+  # preprocessing.Rescaling(1./255) # keep for ResNet50V2, remove for EfficientNetB0
+], name ="data_augmentation")
+
 def mean_absolute_error(y_test, y_pred):
   """
   Calculuates mean absolute error between y_test and y_preds.
@@ -196,23 +208,35 @@ def plot_decision_boundary(model, X, y, index):
   plt.ylim(yy.min(), yy.max())
   plt.savefig('data/images/decision_boundary' + str(index) + '.png', format='png')
 
-def create_tensorboard_callback(dir_name, experiment_name):
+def tensorboard_callback(dir_name):
   """
   Creates a TensorBoard callback instand to store log files.
 
   Stores log files with the filepath:
-    "dir_name/experiment_name/current_datetime/"
+    "dir_name/current_datetime/"
 
   Args:
     dir_name: target directory to store TensorBoard log files
-    experiment_name: name of experiment directory (e.g. efficientnet_model1)
   """
-  log_dir = dir_name + "/" + experiment_name + "/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-  tensorboard_callback = tf.keras.callbacks.TensorBoard(
+  log_dir = "data/" + dir_name + "/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+  result = tf.keras.callbacks.TensorBoard(
       log_dir=log_dir
   )
   print(f"Saving TensorBoard log files to: {log_dir}")
-  return tensorboard_callback
+  return result
+
+def checkpoint_path(index):
+    return "data/model" + str(index) + "/checkpoint.ckpt"
+    
+def checkpoint_callback(index):
+    result = tf.keras.callbacks.ModelCheckpoint(
+        filepath=checkpoint_path(index),
+        save_weights_only=True, # set to False to save the entire model
+        save_best_only=True, # save only the best model weights instead of a model every epoch
+        save_freq="epoch", # save every epoch
+        verbose=1
+    )
+    return result
 
 def plot_predictions(train_data,
                      train_labels,
@@ -233,8 +257,6 @@ def plot_predictions(train_data,
   # Show the legend
   plt.legend()
   plt.savefig('data/images/predictions' + str(index) + '.png', format='png')
-  
-IMAGE_SHAPE = (224, 224)
 
 def create_model(model_url, num_classes=10):
   """Takes a TensorFlow Hub URL and creates a Keras Sequential model with it.
@@ -264,7 +286,7 @@ def create_model(model_url, num_classes=10):
   
 # Plot the validation and training data separately
 def plot_curves(history, index):
-    plot_loss_curves(history, index)
+    #plot_loss_curves(history, index)
     plot_accuracy_curves(history, index)
 
 def plot_loss_curves(history, index):
@@ -502,3 +524,25 @@ def download(url):
         if not path.exists(resourceFile):
             subprocess.run(['wget', url])
     os.chdir("..")
+
+def find_subdirectories_with_leaf(root_dir, leaf_dir):
+    """
+    Find all subdirectory paths containing the specific leaf directory.
+
+    Parameters:
+    root_dir (str): The root directory to start the search.
+    leaf_dir (str): The name of the leaf directory you want to find.
+
+    Returns:
+    list: A list of subdirectory paths that contain the leaf directory.
+    """
+    matching_dirs = []
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        if leaf_dir in dirnames:
+            matching_dirs.append(os.path.join(dirpath, leaf_dir))
+    return matching_dirs
+
+def remove_subdirectories_with_leaf(root_dir, leaf_dir):
+    subdirectories_with_train = find_subdirectories_with_leaf(root_dir, leaf_dir)
+    for train_path in subdirectories_with_train:
+        subprocess.run(['rm', '-r', train_path])

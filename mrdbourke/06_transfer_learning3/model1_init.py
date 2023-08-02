@@ -1,12 +1,5 @@
 from common import *
 
-# Create checkpoint callback to save model for later use
-checkpoint_path = "data/101_classes_10_percent_data_model_checkpoint"
-checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path,
-                                                         save_only=True, # save only the model weights
-                                                         monitor="val_accuracy", # save the model weights which score the best validation accuracy
-                                                         save_best_only=True) # only keep the best model weights on file (delete the rest)
-
 # Setup data augmentation
 data_augmentation = Sequential([
   preprocessing.RandomFlip("horizontal"), # randomly flip images on horizontal edge
