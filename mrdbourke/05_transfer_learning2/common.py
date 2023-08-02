@@ -2,7 +2,7 @@ import sys
 sys.path.append('../modules')
 from helper_functions import *
 
-remove_subdirectories_with_leaf("data/transfer_learning", "train") # Keep only validate directories
+#remove_subdirectories_with_leaf("data/transfer_learning", "train") # Keep only validate directories
 
 download("https://storage.googleapis.com/ztm_tf_course/food_vision/10_food_classes_10_percent.zip")
 
