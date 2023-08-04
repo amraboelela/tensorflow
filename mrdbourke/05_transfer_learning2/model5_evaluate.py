@@ -22,7 +22,7 @@ plot_curves(history5, 5)
 
 print("")
 print("# Evaluate the model on the test data")
-results_fine_tune_10_percent = model5.evaluate(test_data_10_percent)
+results_fine_tune_10_percent = model5.evaluate(test_data)
 print(results_fine_tune_10_percent)
 
 compare_historys(

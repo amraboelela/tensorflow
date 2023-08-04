@@ -10,7 +10,7 @@ with open('data/history4.pkl', 'rb') as f:
 with open('data/history6.pkl', 'rb') as f:
     history6 = pickle.load(f)
   
-results_fine_tune_full_data = model6.evaluate(test_data_all)
+results_fine_tune_full_data = model6.evaluate(test_data)
 print(results_fine_tune_full_data)
     
 # How did fine-tuning go with more data?

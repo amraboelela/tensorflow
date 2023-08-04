@@ -10,13 +10,13 @@ print(model4.summary())
 
 print("")
 print("# Evaluate on the test data")
-results_10_percent_data_aug = model4.evaluate(test_data_10_percent)
+results_10_percent_data_aug = model4.evaluate(test_data)
 print(results_10_percent_data_aug)
 
 print("")
 print("# Load in checkpoint saved model weights and evaluate model")
 model4.load_weights(checkpoint_path(4))
-loaded_weights_model_results = model4.evaluate(test_data_10_percent)
+loaded_weights_model_results = model4.evaluate(test_data)
 print(loaded_weights_model_results)
 
 print("")

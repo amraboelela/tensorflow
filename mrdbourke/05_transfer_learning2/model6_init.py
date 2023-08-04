@@ -12,4 +12,4 @@ model6.compile(
 )
                 
 # Evaluate model (this is the fine-tuned 10 percent of data version)
-#model6.evaluate(test_data_all)
+#model6.evaluate(test_data)
