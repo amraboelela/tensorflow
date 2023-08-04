@@ -460,9 +460,9 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
 
     # Are there a list of classes?
     if classes:
-    labels = classes
+        labels = classes
     else:
-    labels = np.arange(cm.shape[0])
+        labels = np.arange(cm.shape[0])
 
     # Label the axes
     ax.set(title="Confusion Matrix",
@@ -486,16 +486,16 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
 
     # Plot the text on each cell
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-    if norm:
-      plt.text(j, i, f"{cm[i, j]} ({cm_norm[i, j]*100:.1f}%)",
-              horizontalalignment="center",
-              color="white" if cm[i, j] > threshold else "black",
-              size=text_size)
-    else:
-      plt.text(j, i, f"{cm[i, j]}",
-              horizontalalignment="center",
-              color="white" if cm[i, j] > threshold else "black",
-              size=text_size)
+        if norm:
+            plt.text(j, i, f"{cm[i, j]} ({cm_norm[i, j]*100:.1f}%)",
+                  horizontalalignment="center",
+                  color="white" if cm[i, j] > threshold else "black",
+                  size=text_size)
+        else:
+            plt.text(j, i, f"{cm[i, j]}",
+                  horizontalalignment="center",
+                  color="white" if cm[i, j] > threshold else "black",
+                  size=text_size)
 
     # Save the figure to the current working directory
     fig.savefig("data/images/confusion_matrix.png")

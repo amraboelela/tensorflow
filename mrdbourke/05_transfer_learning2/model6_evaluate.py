@@ -1,5 +1,8 @@
 from model6_init import *
 
+# Evaluate model (this is the fine-tuned 10 percent of data version)
+model6.evaluate(test_data)
+
 model6.load_weights(checkpoint_path(6))
     
 # Load the saved history object from a file

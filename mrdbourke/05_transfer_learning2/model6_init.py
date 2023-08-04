@@ -10,6 +10,3 @@ model6.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), # lr is 10x lower than before for fine-tuning
     metrics=["accuracy"]
 )
-                
-# Evaluate model (this is the fine-tuned 10 percent of data version)
-#model6.evaluate(test_data)

@@ -16,6 +16,8 @@ outputs = layers.Dense(10, activation="softmax", name="output_layer")(x)
 model4 = tf.keras.Model(inputs, outputs)
 
 # Compile
-model4.compile(loss="categorical_crossentropy",
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), # use Adam optimizer with base learning rate
-              metrics=["accuracy"])
+model4.compile(
+    loss="categorical_crossentropy",
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), # use Adam optimizer with base learning rate
+    metrics=["accuracy"]
+)

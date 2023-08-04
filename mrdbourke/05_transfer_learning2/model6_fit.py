@@ -1,7 +1,5 @@
 from model6_init import *
 
-model6.load_weights(checkpoint_path(5))
-
 history6 = model6.fit(
     train_data_all,
     epochs=5,

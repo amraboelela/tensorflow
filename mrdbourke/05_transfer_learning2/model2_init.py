@@ -24,6 +24,9 @@ outputs = layers.Dense(10, activation="softmax", name="output_layer")(x)
 model2 = tf.keras.Model(inputs, outputs)
 
 # Compile the model
-model2.compile(loss="categorical_crossentropy",
-              optimizer=tf.keras.optimizers.Adam(),
-              metrics=["accuracy"])
+model2.compile(
+    loss='categorical_crossentropy',
+    optimizer=tf.keras.optimizers.Adam(),
+    metrics=["accuracy"]
+)
+
