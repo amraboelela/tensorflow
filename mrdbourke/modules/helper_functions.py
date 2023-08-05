@@ -227,7 +227,7 @@ def tensorboard_callback(dir_name):
     return result
 
 def checkpoint_path(index):
-    return "data/model" + str(index)
+    return "data/model" + str(index) + "/checkpoint.ckpt"
     
 def checkpoint_callback(index):
     result = tf.keras.callbacks.ModelCheckpoint(

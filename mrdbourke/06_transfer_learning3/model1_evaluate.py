@@ -1,7 +1,6 @@
 from model1_init import *
 
 print(model1.summary())
-exit()
 
 model1.load_weights('data/model1.keras')
 
@@ -9,6 +8,10 @@ model1.load_weights('data/model1.keras')
 with open('data/history1.pkl', 'rb') as f:
     history1 = pickle.load(f)
 
+print("")
+print("# Evaluate model")
+results_feature_extraction_model = model1.evaluate(test_data)
+print(results_feature_extraction_model)
 
 plot_curves(history1, 1)
 
