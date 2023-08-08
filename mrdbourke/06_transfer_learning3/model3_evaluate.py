@@ -1,4 +1,26 @@
-from model2_init import *
+from model3_init import *
+
+# Check to see if loaded model is a trained model
+#loaded_loss, loaded_accuracy = model3.evaluate(test_data)
+#print(loaded_loss, loaded_accuracy)
+
+# Make predictions with model
+pred_probs = model3.predict(test_data, verbose=1) # set verbosity to see how long it will take
+
+print("")
+print("# How many predictions are there?")
+print(len(pred_probs))
+
+print("")
+print("# What's the shape of our predictions?")
+print(pred_probs.shape)
+
+
+print("")
+print("# How do they look?")
+print(pred_probs[:10])
+
+exit()
 
 print("")
 print("# What layers in the model are trainable?")

@@ -23,3 +23,6 @@ test_data = tf.keras.preprocessing.image_dataset_from_directory(
     image_size=IMG_SIZE,
     shuffle=False
 ) # don't shuffle test data for prediction analysis
+
+download("https://storage.googleapis.com/ztm_tf_course/food_vision/06_101_food_class_10_percent_saved_big_dog_model.zip")
+saved_model_path = "data/06_101_food_class_10_percent_saved_big_dog_model"
