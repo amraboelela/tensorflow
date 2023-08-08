@@ -543,3 +543,27 @@ def remove_subdirectories_with_leaf(root_dir, leaf_dir):
     subdirectories_with_train = find_subdirectories_with_leaf(root_dir, leaf_dir)
     for train_path in subdirectories_with_train:
         subprocess.run(['rm', '-r', train_path])
+
+def save_tensor(tensor, name):
+    # Convert the tensor to a string
+    tensor_string = tf.io.serialize_tensor(tensor)
+    
+    # Specify the file path to save the tensor
+    file_path = "data/" + name + ".tfd"
+
+    # Write the tensor string to the file
+    tf.io.write_file(file_path, tensor_string)
+
+def read_tensor(name):
+    # Specify the file path of the saved tensor
+    file_path = "data/" + name + ".tfd"
+
+    try:
+        # Read the tensor string from the file
+        tensor_string = tf.io.read_file(file_path)
+    except Exception as e:
+        return None
+
+    # Deserialize the tensor string to a tensor
+    tensor = tf.io.parse_tensor(tensor_string)
+    return tensor
