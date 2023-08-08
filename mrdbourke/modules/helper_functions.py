@@ -562,8 +562,9 @@ def read_tensor(name):
         # Read the tensor string from the file
         tensor_string = tf.io.read_file(file_path)
     except Exception as e:
+        print("Couldn't find the tensor file at " + file_path)
         return None
 
     # Deserialize the tensor string to a tensor
-    tensor = tf.io.parse_tensor(tensor_string)
+    tensor = tf.io.parse_tensor(tensor_string, out_type=tf.float32)
     return tensor
