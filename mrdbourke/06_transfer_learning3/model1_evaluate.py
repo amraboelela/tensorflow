@@ -2,7 +2,7 @@ from model1_init import *
 
 print(model1.summary())
 
-model1.load_weights('data/model1.keras')
+model1.load_weights(checkpoint_path(1))
 
 # Load the saved history object from a file
 with open('data/history1.pkl', 'rb') as f:

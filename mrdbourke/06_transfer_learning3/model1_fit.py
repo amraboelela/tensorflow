@@ -12,8 +12,6 @@ history1 = model1.fit(
     ]
 ) # save best model weights to file
 
-model1.save_weights('data/model1.keras')
-
 # Save the history to a file
 with open('data/history1.pkl', 'wb') as file:
     pickle.dump(history1.history, file)
