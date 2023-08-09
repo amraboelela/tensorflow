@@ -23,7 +23,6 @@ print("")
 print("# What's the shape of our predictions?")
 print(pred_probs.shape)
 
-
 print("")
 print("# How do they look?")
 print(pred_probs[:10])
@@ -32,7 +31,22 @@ print("")
 print("# We get one prediction probability per class")
 print(f"Number of prediction probabilities for sample 0: {len(pred_probs[0])}")
 print(f"What prediction probability sample 0 looks like:\n {pred_probs[0]}")
-print(f"The class with the highest predicted probability by the model for sample 0: {pred_probs[0].argmax()}")
+print(f"The class with the highest predicted probability by the model for sample 0: {tf.argmax(pred_probs[0])}")
+
+print("")
+print("# Get the class predicitons of each label")
+pred_classes = tf.argmax(pred_probs, axis=1)
+
+print("")
+print("# How do they look?")
+print(pred_classes[:10])
+
+print("")
+print("# Note: This might take a minute or so due to unravelling 790 batches")
+y_labels = []
+for images, labels in test_data.unbatch(): # unbatch the test data and get images and labels
+    y_labels.append(labels.numpy().argmax()) # append the index which has the largest value (labels are one-hot)
+print(y_labels[:10], "# check what they look like (unshuffled)")
 
 exit()
 
