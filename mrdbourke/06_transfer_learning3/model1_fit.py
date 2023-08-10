@@ -1,4 +1,7 @@
 from model1_init import *
+   
+tensorboard_path = "transfer_learning/model1"
+subprocess.run(['rm', '-r', "data/" + tensorboard_path])
 
 # Fit
 history1 = model1.fit(
@@ -7,7 +10,7 @@ history1 = model1.fit(
     validation_data=test_data,
     validation_steps=int(0.15 * len(test_data)), # evaluate on smaller portion of test data
     callbacks=[
-        tensorboard_callback("transfer_learning/model1"),
+        tensorboard_callback(tensorboard_path),
         checkpoint_callback(1)
     ]
 ) # save best model weights to file

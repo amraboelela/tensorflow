@@ -1,5 +1,8 @@
 from model1_init import *
 
+tensorboard_path = "transfer_learning/model1"
+subprocess.run(['rm', '-r', "data/" + tensorboard_path])
+
 # Fit the model
 history1 = model1.fit(train_data_10_percent,
                       epochs=5,
@@ -7,7 +10,7 @@ history1 = model1.fit(train_data_10_percent,
                       validation_data=test_data,
                       validation_steps=len(test_data),
                       # Add TensorBoard callback to model (callbacks parameter takes a list)
-                      callbacks=[tensorboard_callback("tensorflow_hub/resnet50V2")]) # name of log files
+                      callbacks=[tensorboard_callback(tensorboard_path)]) # name of log files
 
 model1.save_weights('data/model1.keras')
 

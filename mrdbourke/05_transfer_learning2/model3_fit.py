@@ -2,6 +2,9 @@ from model3_init import *
 
 model3.load_weights('data/model2.keras')
 
+tensorboard_path = "transfer_learning/model3"
+subprocess.run(['rm', '-r', "data/" + tensorboard_path])
+
 # Fit the model
 history3 = model3.fit(
     train_data_1_percent,
@@ -10,7 +13,7 @@ history3 = model3.fit(
     validation_data=test_data,
     validation_steps=int(0.25* len(test_data)), # validate for less steps
     # Track model training logs
-    callbacks=[tensorboard_callback("transfer_learning/1_percent_data_aug")]
+    callbacks=[tensorboard_callback(tensorboard_path)]
 )
 
 model3.save_weights('data/model3.keras')
