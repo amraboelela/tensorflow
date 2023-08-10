@@ -14,5 +14,3 @@ print(base_model.summary())
   
 print(model1.summary())
 plot_curves(history1, 1)
-
-# Run in terminal % tensorboard --logdir ./data/transfer_learning

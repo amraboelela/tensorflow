@@ -22,14 +22,15 @@ plot_curves(history5, 5)
 
 print("")
 print("# Evaluate the model on the test data")
-results_fine_tune_10_percent = model5.evaluate(test_data)
-print(results_fine_tune_10_percent)
+model5_evaluate = read_tensor("model5_evaluate")
+if model5_evaluate is None:
+    model5_evaluate = model5.evaluate(test_data)
+    save_tensor(model5_evaluate, "model5_evaluate")
+print(model5_evaluate)
 
 compare_historys(
     original_history=history4,
     new_history=history5,
     initial_epochs=5
 )
-      
-# Run in terminal % tensorboard --logdir ./data/transfer_learning
-                      
+

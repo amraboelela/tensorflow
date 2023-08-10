@@ -15,9 +15,11 @@ print(results_10_percent_data_aug)
 
 print("")
 print("# Load in checkpoint saved model weights and evaluate model")
-model4.load_weights(checkpoint_path(4))
-loaded_weights_model_results = model4.evaluate(test_data)
-print(loaded_weights_model_results)
+model4_evaluate = read_tensor("model4_evaluate")
+if model4_evaluate is None:
+    model4_evaluate = model4.evaluate(test_data)
+    save_tensor(model4_evaluate, "model4_evaluate")
+print(model4_evaluate)
 
 print("")
 print("# If the results from our native model and the loaded weights are the same, this should output True")
@@ -50,5 +52,4 @@ print("print(len(base_model.trainable_variables))")
 # Check which layers are tuneable (trainable)
 for layer_number, layer in enumerate(base_model.layers):
   print(layer_number, layer.name, layer.trainable)
-  
-# Run in terminal % tensorboard --logdir ./data/transfer_learning
+

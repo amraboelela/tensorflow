@@ -14,6 +14,13 @@ print(model2.summary())
 
 model2.load_weights(checkpoint_path(2))
 
+# Evaluate fine-tuned model on the whole test dataset
+model2_evaluate = read_tensor("model2_evaluate")
+if model2_evaluate is None:
+    model2_evaluate = model2.evaluate(test_data)
+    save_tensor(model2_evaluate, "model2_evaluate")
+print(model2_evaluate)
+
 # Load the saved history object from a file
 with open('data/history1.pkl', 'rb') as f:
     history1 = pickle.load(f)
@@ -21,11 +28,7 @@ with open('data/history1.pkl', 'rb') as f:
 # Load the saved history object from a file
 with open('data/history2.pkl', 'rb') as f:
     history2 = pickle.load(f)
-
-# Evaluate fine-tuned model on the whole test dataset
-#results_all_classes_10_percent_fine_tune = model2.evaluate(test_data)
-#print(results_all_classes_10_percent_fine_tune)
-
+    
 compare_historys(
     original_history=history1,
     new_history=history2,
@@ -33,5 +36,3 @@ compare_historys(
 )
                  
 plot_curves(history2, 2)
-
-# Run in terminal % tensorboard --logdir ./data/transfer_learning

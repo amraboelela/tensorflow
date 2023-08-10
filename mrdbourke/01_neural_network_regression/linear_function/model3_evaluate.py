@@ -21,7 +21,11 @@ plot_predictions(train_data=X_train,
 
 print("")
 print("# Evaluate the model on the test set")
-model3.evaluate(X_test, y_test)
+model3_evaluate = read_tensor("model3_evaluate")
+if model3_evaluate is None:
+    model3_evaluate = model3.evaluate(X_test, y_test)
+    save_tensor(model3_evaluate, "model3_evaluate")
+print(model3_evaluate)
 
 print("")
 print("# Calculate the mean absolute error")

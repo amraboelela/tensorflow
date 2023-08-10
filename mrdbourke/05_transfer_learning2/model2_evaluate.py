@@ -13,5 +13,3 @@ results_1_percent_data_aug = model2.evaluate(test_data)
 print(results_1_percent_data_aug)
 
 plot_curves(history2, 2)
-
-# Run in terminal % tensorboard --logdir ./data/transfer_learning
