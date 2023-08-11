@@ -14,7 +14,7 @@ history3 = model3.fit(
     initial_epoch=5,
     callbacks=[
         tensorboard_callback(tensorboard_path),
-        checkpoint_callback(2)
+        checkpoint_callback(3)
     ]
 ) # start from previous last epoch
 
