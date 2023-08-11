@@ -1,4 +1,4 @@
-from model2_init import *
+from model3_init import *
 
 # Fine-tune for 5 more epochs
 fine_tune_epochs = 10 # model has already done 5 epochs, this is the total number of epochs we're after (5+5=10)
