@@ -567,3 +567,16 @@ def read_tensor(name):
     # Deserialize the tensor string to a tensor
     tensor = tf.io.parse_tensor(tensor_string, out_type=tf.float32)
     return tensor
+
+def autolabel(rects): # Modified version of: https://matplotlib.org/examples/api/barchart_demo.html
+    """
+    Attach a text label above each bar displaying its height (it's value).
+    """
+    for rect in rects:
+        width = rect.get_width()
+        ax.text(
+            1.03*width, rect.get_y() + rect.get_height()/1.5,
+            f"{width:.2f}",
+            ha='center',
+            va='bottom'
+        )
