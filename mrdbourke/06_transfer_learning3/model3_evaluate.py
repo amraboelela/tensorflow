@@ -7,6 +7,14 @@ if model3_evaluate is None:
     model3_evaluate = model3.evaluate(test_data)
     save_tensor(model3_evaluate, "model3_evaluate")
 print(model3_evaluate)
+model3_loss, model3_accuracy = model3_evaluate
+
+print("")
+print("# Load the saved history object from a file")
+with open('data/history3.pkl', 'rb') as f:
+    history3 = pickle.load(f)
+ 
+plot_curves(history3, 3)
 
 print("")
 print("# Make predictions with model")
@@ -48,7 +56,64 @@ for images, labels in test_data.unbatch(): # unbatch the test data and get image
     y_labels.append(labels.numpy().argmax()) # append the index which has the largest value (labels are one-hot)
 print(y_labels[:10], "# check what they look like (unshuffled)")
 
+print("")
+print("# How many labels are there? (should be the same as how many prediction probabilities we have)")
+print(len(y_labels))
+
+print("")
+print("# Get accuracy score by comparing predicted classes to ground truth labels")
+sklearn_accuracy = accuracy_score(y_labels, pred_classes)
+print(sklearn_accuracy)
+
+print("")
+print("# Does the evaluate method compare to the Scikit-Learn measured accuracy?")
+print(f"Close? {np.isclose(model3_accuracy, sklearn_accuracy)} | Difference: {model3_accuracy - sklearn_accuracy}")
+
+print("")
+print("# Get the class names")
+class_names = test_data.class_names
+print(class_names[:10])
+
+# Plot a confusion matrix with all 25250 predictions, ground truth labels and 101 classes
+make_confusion_matrix(
+    y_true=y_labels,
+    y_pred=pred_classes,
+    classes=class_names,
+    figsize=(100, 100),
+    text_size=20,
+    norm=False
+)
+
+print(classification_report(y_labels, pred_classes))
+
+print("")
+print("# Get a dictionary of the classification report")
+classification_report_dict = classification_report(y_labels, pred_classes, output_dict=True)
+print(classification_report_dict)
+
+print("")
+# Create empty dictionary
+class_f1_scores = {}
+print("# Loop through classification report items")
+for k, v in classification_report_dict.items():
+  if k == "accuracy": # stop once we get to accuracy key
+    break
+  else:
+    # Append class names and f1-scores to new dictionary
+    class_f1_scores[class_names[int(k)]] = v["f1-score"]
+print(class_f1_scores)
+
+print("")
+print("# Turn f1-scores into dataframe for visualization")
+f1_scores = pd.DataFrame({"class_name": list(class_f1_scores.keys()),
+                          "f1-score": list(class_f1_scores.values())}).sort_values("f1-score", ascending=False)
+print(f1_scores.head())
+
 exit()
+
+
+
+
 
 print("")
 print("# What layers in the model are trainable?")
@@ -64,10 +129,7 @@ print(model2.summary())
 
 model2.load_weights(checkpoint_path(2))
 
-# Load the saved history object from a file
-with open('data/history1.pkl', 'rb') as f:
-    history1 = pickle.load(f)
-    
+   
 # Load the saved history object from a file
 with open('data/history2.pkl', 'rb') as f:
     history2 = pickle.load(f)
