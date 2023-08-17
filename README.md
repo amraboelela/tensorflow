@@ -1,5 +1,25 @@
 # tensorflow
 
+## Setup in macOS
+
+Install brew
+
+```
+% /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Install these packages
+
+```
+% brew install python wget
+```
+
+Install tensorboard
+
+```
+% pip install tensorflow scikit-learn tensorflow_hub matplotlib pandas
+```
+
 ## Tensorboard
 
 To setup tensorboard in Ubuntu using Nginx, do the following:
