@@ -64,7 +64,7 @@ def mean_squared_error(y_test, y_pred):
                                        y_pred)
                                        
 # Create a function to import an image and resize it to be able to be used with our model
-def load_and_prep_image(filename, img_shape=224, scale=True):
+def load_and_prep_image(filePath, img_shape=224, scale=True):
     """
     Reads in an image from filename, turns it into a tensor and reshapes into
     (224, 224, 3).
@@ -76,7 +76,7 @@ def load_and_prep_image(filename, img_shape=224, scale=True):
     scale (bool): whether to scale pixel values to range(0, 1), default True
     """
     # Read in the image
-    img = tf.io.read_file("data/images/" + filename)
+    img = tf.io.read_file(filePath)
     # Decode it into a tensor
     img = tf.io.decode_image(img)
     # Resize the image
@@ -567,16 +567,3 @@ def read_tensor(name):
     # Deserialize the tensor string to a tensor
     tensor = tf.io.parse_tensor(tensor_string, out_type=tf.float32)
     return tensor
-
-def autolabel(rects): # Modified version of: https://matplotlib.org/examples/api/barchart_demo.html
-    """
-    Attach a text label above each bar displaying its height (it's value).
-    """
-    for rect in rects:
-        width = rect.get_width()
-        ax.text(
-            1.03*width, rect.get_y() + rect.get_height()/1.5,
-            f"{width:.2f}",
-            ha='center',
-            va='bottom'
-        )
