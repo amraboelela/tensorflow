@@ -109,35 +109,55 @@ f1_scores = pd.DataFrame({"class_name": list(class_f1_scores.keys()),
                           "f1-score": list(class_f1_scores.values())}).sort_values("f1-score", ascending=False)
 print(f1_scores.head())
 
+
+fig, ax = plt.subplots(figsize=(12, 25))
+scores = ax.barh(range(len(f1_scores)), f1_scores["f1-score"].values)
+ax.set_yticks(range(len(f1_scores)))
+ax.set_yticklabels(list(f1_scores["class_name"]))
+ax.set_xlabel("f1-score")
+ax.set_title("F1-Scores for 100 Different Classes")
+ax.invert_yaxis(); # reverse the order
+
+def autolabel(rects): # Modified version of: https://matplotlib.org/examples/api/barchart_demo.html
+    """
+    Attach a text label above each bar displaying its height (it's value).
+    """
+    for rect in rects:
+        width = rect.get_width()
+        ax.text(
+            1.03*width, rect.get_y() + rect.get_height()/1.5,
+            f"{width:.2f}",
+            ha='center',
+            va='bottom'
+        )
+
+autolabel(scores)
+
+fig.savefig("data/images/autolabel3.png")
+
+plt.figure(figsize=(17, 10))
+for i in range(3):
+  # Choose a random image from a random class
+  class_name = random.choice(class_names)
+  filename = random.choice(os.listdir(test_dir + "/" + class_name))
+  filepath = test_dir + class_name + "/" + filename
+
+  # Load the image and make predictions
+  img = load_and_prep_image(filepath, scale=False) # don't scale images for EfficientNet predictions
+  pred_prob = model.predict(tf.expand_dims(img, axis=0)) # model accepts tensors of shape [None, 224, 224, 3]
+  pred_class = class_names[pred_prob.argmax()] # find the predicted class
+
+  # Plot the image(s)
+  plt.subplot(1, 3, i+1)
+  plt.imshow(img/255.)
+  if class_name == pred_class: # Change the color of text based on whether prediction is right or wrong
+    title_color = "g"
+  else:
+    title_color = "r"
+  plt.title(f"actual: {class_name}, pred: {pred_class}, prob: {pred_prob.max():.2f}", c=title_color)
+  plt.axis(False);
+
+fig.savefig("data/images/prediction3.png")
+
 exit()
 
-
-
-
-
-print("")
-print("# What layers in the model are trainable?")
-for layer in model2.layers:
-    print(layer.name, layer.trainable)
-
-print("")
-print("# Check which layers are trainable")
-for layer_number, layer in enumerate(model2.layers[2].layers):
-    print(layer_number, layer.name, layer.trainable)
-
-print(model2.summary())
-
-model2.load_weights(checkpoint_path(2))
-
-   
-# Load the saved history object from a file
-with open('data/history2.pkl', 'rb') as f:
-    history2 = pickle.load(f)
-
-compare_historys(
-    original_history=history1,
-    new_history=history2,
-    initial_epochs=5
-)
-                 
-plot_curves(history2, 2)
