@@ -569,3 +569,12 @@ def read_tensor(name):
     # Deserialize the tensor string to a tensor
     tensor = tf.io.parse_tensor(tensor_string, out_type=tf.float32)
     return tensor
+
+# Make a function for preprocessing images
+def preprocess_img(image, label, img_shape=224):
+    """
+    Converts image datatype from 'uint8' -> 'float32' and reshapes image to
+    [img_shape, img_shape, color_channels]
+    """
+    image = tf.image.resize(image, [img_shape, img_shape]) # reshape to img_shape
+    return tf.cast(image, tf.float32), label # return (float32_image, label) tuple

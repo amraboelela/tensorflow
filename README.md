@@ -17,7 +17,7 @@ Install these packages
 Install tensorboard
 
 ```
-% pip install tensorflow scikit-learn tensorflow_hub matplotlib pandas
+% pip install tensorflow scikit-learn tensorflow_hub matplotlib pandas tensorflow_datasets
 ```
 
 ## Tensorboard
