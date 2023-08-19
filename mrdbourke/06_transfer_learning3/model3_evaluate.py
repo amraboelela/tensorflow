@@ -36,6 +36,11 @@ print("# How do they look?")
 print(pred_probs[:10])
 
 print("")
+print("# Predictions from numpy")
+predictions=np.amax(pred_probs, axis=1)
+print(predictions)
+
+print("")
 print("# We get one prediction probability per class")
 print(f"Number of prediction probabilities for sample 0: {len(pred_probs[0])}")
 print(f"What prediction probability sample 0 looks like:\n {pred_probs[0]}")
@@ -133,7 +138,7 @@ def autolabel(rects): # Modified version of: https://matplotlib.org/examples/api
 
 autolabel(scores)
 
-fig.savefig("data/images/autolabel3.png")
+plt.savefig("data/images/autolabel3.png")
 
 plt.figure(figsize=(17, 10))
 for i in range(3):
@@ -144,7 +149,7 @@ for i in range(3):
 
   # Load the image and make predictions
   img = load_and_prep_image(filepath, scale=False) # don't scale images for EfficientNet predictions
-  pred_prob = model.predict(tf.expand_dims(img, axis=0)) # model accepts tensors of shape [None, 224, 224, 3]
+  pred_prob = model3.predict(tf.expand_dims(img, axis=0)) # model accepts tensors of shape [None, 224, 224, 3]
   pred_class = class_names[pred_prob.argmax()] # find the predicted class
 
   # Plot the image(s)
@@ -157,7 +162,68 @@ for i in range(3):
   plt.title(f"actual: {class_name}, pred: {pred_class}, prob: {pred_prob.max():.2f}", c=title_color)
   plt.axis(False);
 
-fig.savefig("data/images/prediction3.png")
+plt.savefig("data/images/prediction3.png")
 
-exit()
+print("")
+print("# 1. Get the filenames of all of our test data")
+filepaths = []
+for filepath in test_data.list_files("data/101_food_classes_10_percent/test/*/*.jpg", 
+                                     shuffle=False):
+  filepaths.append(filepath.numpy())
+print(filepaths[:10])
+
+print("")
+print("# 2. Create a dataframe out of current prediction data for analysis")
+import pandas as pd
+pred_df = pd.DataFrame({"img_path": filepaths,
+                        "y_true": y_labels,
+                        "y_pred": pred_classes,
+                        "pred_conf": np.amax(pred_probs, axis=1), # get the maximum prediction probability value
+                        "y_true_classname": [class_names[i] for i in y_labels],
+                        "y_pred_classname": [class_names[i] for i in pred_classes]})
+print(pred_df.head())
+
+print("")
+print("# 3. Is the prediction correct?")
+pred_df["pred_correct"] = pred_df["y_true"] == pred_df["y_pred"]
+print(pred_df.head())
+
+print("")
+print("# 4. Get the top 100 wrong examples")
+top_100_wrong = pred_df[pred_df["pred_correct"] == False].sort_values("pred_conf", ascending=False)[:100]
+print(top_100_wrong.drop("img_path", axis=1).head(20))
+
+print("")
+print("# 5. Visualize some of the most wrong examples")
+images_to_view = 9
+start_index = 10 # change the start index to view more
+plt.figure(figsize=(15, 10))
+for i, row in enumerate(top_100_wrong[start_index:start_index+images_to_view].itertuples()):
+  plt.subplot(3, 3, i+1)
+  img = load_and_prep_image(row[1], scale=True)
+  _, _, _, _, pred_prob, y_true, y_pred, _ = row # only interested in a few parameters of each row
+  plt.imshow(img)
+  plt.title(f"actual: {y_true}, pred: {y_pred} \nprob: {pred_prob:.2f}")
+  plt.axis(False)
+plt.savefig("data/images/wrong_prediction3.png")
+
+print("")
+print("# Get custom food images filepaths")
+custom_food_images = ["data/custom_food_images/" + img_path for img_path in os.listdir("data/custom_food_images")]
+print(custom_food_images)
+
+print("")
+print("# Make predictions on custom food images")
+count=0
+for img in custom_food_images:
+  count += 1
+  img = load_and_prep_image(img, scale=False) # load in target image and turn it into tensor
+  pred_prob = model3.predict(tf.expand_dims(img, axis=0)) # make prediction on image with shape [None, 224, 224, 3]
+  pred_class = class_names[pred_prob.argmax()] # find the predicted class label
+  # Plot the image with appropriate annotations
+  plt.figure()
+  plt.imshow(img/255.) # imshow() requires float inputs to be normalized
+  plt.title(f"pred: {pred_class}, prob: {pred_prob.max():.2f}")
+  plt.axis(False)
+  plt.savefig("data/images/predict-" + str(count)  + ".png")
 

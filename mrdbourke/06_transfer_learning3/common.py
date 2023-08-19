@@ -26,3 +26,8 @@ test_data = tf.keras.preprocessing.image_dataset_from_directory(
 
 download("https://storage.googleapis.com/ztm_tf_course/food_vision/06_101_food_class_10_percent_saved_big_dog_model.zip")
 saved_model_path = "data/06_101_food_class_10_percent_saved_big_dog_model"
+
+# Download some custom images from Google Storage
+# Note: you can upload your own custom images to Google Colab using the "upload" button in the Files tab
+download("https://storage.googleapis.com/ztm_tf_course/food_vision/custom_food_images.zip")
+
