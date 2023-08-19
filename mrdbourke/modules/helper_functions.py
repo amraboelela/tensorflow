@@ -20,6 +20,8 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.utils import plot_model
 
+import tensorflow_datasets as tfds
+
 import tensorflow_hub as hub
 
 import datetime
