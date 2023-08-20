@@ -25,12 +25,11 @@ print(ds_info.features)
 
 print("")
 print("# Get class names")
-class_names = ds_info.features["label"].names
 print(class_names[:10])
 
 print("")
 print("# Take one sample off the training data")
-train_one_sample = train_data.take(1) # samples are in format (image_tensor, label)
+train_one_sample = raw_train_data.take(1) # samples are in format (image_tensor, label)
 print("# What does one sample of our training data look like?")
 print(train_one_sample)
 
@@ -60,4 +59,24 @@ plt.axis(False)
 plt.savefig("data/images/image_tensor.png")
 
 print("")
+print("# Preprocess a single sample image and check the outputs")
+preprocessed_img = preprocess_img(image, label)[0]
+print(f"Image before preprocessing:\n {image[:2]}...,\nShape: {image.shape},\nDatatype: {image.dtype}\n")
+print(f"Image after preprocessing:\n {preprocessed_img[:2]}...,\nShape: {preprocessed_img.shape},\nDatatype: {preprocessed_img.dtype}")
+print("")
 
+print("# We can still plot our preprocessed image as long as we ")
+print("# divide by 255 (for matplotlib capatibility)")
+plt.imshow(preprocessed_img/255.)
+plt.title(class_names[label])
+plt.axis(False)
+plt.savefig("data/images/preprocessed_image.png")
+print("")
+
+print("# And now let's check out what our prepared datasets look like")
+print(train_data, test_data)
+print("")
+
+print("mixed_precision.global_policy()")
+print(mixed_precision.global_policy())
+print("")

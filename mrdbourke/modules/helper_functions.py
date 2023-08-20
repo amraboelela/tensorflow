@@ -11,7 +11,7 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.datasets import make_circles
 
 import tensorflow as tf
-from tensorflow.keras import layers, Sequential
+from tensorflow.keras import layers, Sequential, mixed_precision
 from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
 from tensorflow.keras.layers.experimental import preprocessing
