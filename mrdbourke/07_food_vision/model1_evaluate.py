@@ -10,3 +10,10 @@ for layer in model1.layers:
 for layer in model1.layers[1].layers[:20]: # only check the first 20 layers to save output space
     print(layer.name, layer.trainable, layer.dtype, layer.dtype_policy)
 
+model1.load_weights(checkpoint_path(1))
+
+# Load the saved history object from a file
+with open('data/history1.pkl', 'rb') as f:
+    history1 = pickle.load(f)
+
+plot_curves(history1, 1)

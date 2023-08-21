@@ -20,6 +20,21 @@ Install tensorboard
 % pip install tensorflow scikit-learn tensorflow_hub matplotlib pandas tensorflow_datasets
 ```
 
+## Running the code in google colab
+
+Starting from `07_food_vision` you will need to fit the models in google colab or buy your own NVIDIA GPU, otherwise, it would take more than 3 hours to fit the models, and it might not even work.
+
+To run it in google colab, copy `07_food_vision` folder into your google drive, then to fit model1 in google colab, run:
+
+```
+%cd /content/drive/MyDrive/AI/tensorflow/mrdbourke/07_food_vision
+!python model1_fit.py
+```
+
+And all the results will be saved in `07_food_vision/data` folder in your google drive
+
+After done running in google colab, then copy the resulted `07_food_vision/data` folder back into your local machine, and analyze it.
+
 ## Tensorboard
 
 To setup tensorboard in Ubuntu using Nginx, do the following:
