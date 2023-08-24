@@ -288,6 +288,7 @@ def create_model(model_url, num_classes=10):
   
 # Plot the validation and training data separately
 def plot_curves(history, index):
+    print("")
     #plot_loss_curves(history, index)
     plot_accuracy_curves(history, index)
 
@@ -545,31 +546,40 @@ def remove_subdirectories_with_leaf(root_dir, leaf_dir):
     subdirectories_with_train = find_subdirectories_with_leaf(root_dir, leaf_dir)
     for train_path in subdirectories_with_train:
         subprocess.run(['rm', '-r', train_path])
-
+    
 def save_tensor(tensor, name):
     # Convert the tensor to a string
     tensor_string = tf.io.serialize_tensor(tensor)
-    
     # Specify the file path to save the tensor
     file_path = "data/" + name + ".tfd"
-
     # Write the tensor string to the file
     tf.io.write_file(file_path, tensor_string)
 
 def read_tensor(name):
     # Specify the file path of the saved tensor
     file_path = "data/" + name + ".tfd"
-
     try:
         # Read the tensor string from the file
         tensor_string = tf.io.read_file(file_path)
     except Exception as e:
         return None
-
     # Deserialize the tensor string to a tensor
     tensor = tf.io.parse_tensor(tensor_string, out_type=tf.float32)
     return tensor
 
+def save_dataset(dataset, info, name):
+    dataset_list = tfds.as_dataframe(dataset, info)
+    with open("data/" + name + ".json", "w") as json_file:
+        json.dump(dataset_list, json_file)
+ 
+def read_dataset(name):
+    try:
+        with open("data/" + name + ".json", "r") as json_file:
+            dataset_list = json.load(json_file)
+    except Exception as e:
+        return None, None
+    return tfds.from_dataframe(dataset_list)
+    
 # Make a function for preprocessing images
 def preprocess_img(image, label, img_shape=224):
     """

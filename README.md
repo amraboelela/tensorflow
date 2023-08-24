@@ -24,7 +24,7 @@ Install tensorboard
 
 Starting from `07_food_vision` you will need to fit the models in google colab or buy your own NVIDIA GPU, otherwise, it would take more than 3 hours to fit the models, and it might not even work.
 
-To run it in google colab, copy `07_food_vision` folder into your google drive, then to fit model1 in google colab, run:
+To run it in google colab, copy the whole project into your google drive, after removing any data folders, then to fit model1 in google colab, run:
 
 ```
 %cd /content/drive/MyDrive/AI/tensorflow/mrdbourke/07_food_vision
