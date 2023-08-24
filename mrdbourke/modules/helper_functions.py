@@ -566,19 +566,6 @@ def read_tensor(name):
     # Deserialize the tensor string to a tensor
     tensor = tf.io.parse_tensor(tensor_string, out_type=tf.float32)
     return tensor
-
-def save_dataset(dataset, info, name):
-    dataset_list = tfds.as_dataframe(dataset, info)
-    with open("data/" + name + ".json", "w") as json_file:
-        json.dump(dataset_list, json_file)
- 
-def read_dataset(name):
-    try:
-        with open("data/" + name + ".json", "r") as json_file:
-            dataset_list = json.load(json_file)
-    except Exception as e:
-        return None, None
-    return tfds.from_dataframe(dataset_list)
     
 # Make a function for preprocessing images
 def preprocess_img(image, label, img_shape=224):

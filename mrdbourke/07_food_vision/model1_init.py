@@ -19,7 +19,9 @@ outputs = layers.Activation("softmax", dtype=tf.float32, name="softmax_float32")
 model1 = tf.keras.Model(inputs, outputs)
 
 # Compile the model
-model1.compile(loss="sparse_categorical_crossentropy", # Use sparse_categorical_crossentropy when labels are *not* one-hot
-              optimizer=tf.keras.optimizers.Adam(),
-              metrics=["accuracy"])
+model1.compile(
+    loss="sparse_categorical_crossentropy", # Use sparse_categorical_crossentropy when labels are *not* one-hot
+    optimizer=tf.keras.optimizers.Adam(),
+    metrics=["accuracy"]
+)
 

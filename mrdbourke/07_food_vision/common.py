@@ -4,16 +4,13 @@ from helper_functions import *
 
 print("")
 print("# Load in the data (takes about 5-6 minutes in Google Colab)")
-raw_train_data, ds_info = read_dataset("raw_train_data")
-raw_test_data, ds_info = read_dataset("raw_test_data")
-if raw_train_data is None or raw_test_data is None:
-  (raw_train_data, raw_test_data), ds_info = tfds.load(name="food101", # target dataset to get from TFDS
-                                             split=["train", "validation"], # what splits of data should we get? note: not all datasets have train, valid, test
-                                             shuffle_files=True, # shuffle files on download?
-                                             as_supervised=True, # download data in tuple format (sample, label), e.g. (image, label)
-                                             with_info=True) # include dataset metadata? if so, tfds.load() returns tuple (data, ds_info)
-  save_dataset(raw_train_data, ds_info, "raw_train_data")
-  save_dataset(raw_test_data, ds_info, "raw_test_data")
+(raw_train_data, raw_test_data), ds_info = tfds.load(
+    name="food101", # target dataset to get from TFDS
+    split=["train", "validation"], # what splits of data should we get? note: not all datasets have train, valid, test
+    shuffle_files=True, # shuffle files on download?
+    as_supervised=True, # download data in tuple format (sample, label), e.g. (image, label)
+    with_info=True
+) # include dataset metadata? if so, tfds.load() returns tuple (data, ds_info)
 
 class_names = ds_info.features["label"].names
 
