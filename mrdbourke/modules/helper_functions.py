@@ -9,11 +9,14 @@ from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.datasets import make_circles
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
 
 import tensorflow as tf
 from tensorflow.keras import layers, Sequential, mixed_precision
 from tensorflow.keras.datasets import fashion_mnist
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation, TextVectorization
 from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
@@ -26,6 +29,7 @@ import tensorflow_hub as hub
 
 import datetime
 import itertools
+import io
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
@@ -404,7 +408,7 @@ def walk_through_dir(dir_path):
     """
     for dirpath, dirnames, filenames in os.walk(dir_path):
         print(f"There are {len(dirnames)} directories and {len(filenames)} images in '{dirpath}'.")
-
+  
 def calculate_results(y_true, y_pred):
     """
     Calculates model accuracy, precision, recall and f1 score of a binary classification model.
@@ -511,10 +515,11 @@ def download(url):
     resourceExtension = resourceTokens[-1]
     os.chdir("data")
     if resourceExtension == "zip":
-        if not path.exists(resource):
+        if not path.exists(resource) and not path.exists(resourceFile):
             subprocess.run(['wget', url])
             subprocess.run(['unzip', resourceFile])
-            subprocess.run(['rm', resourceFile])
+            if path.exists(resource):
+                subprocess.run(['rm', resourceFile])
     elif resourceExtension == "jpeg":
         os.chdir("images")
         if not path.exists(resourceFile):
@@ -575,3 +580,8 @@ def preprocess_img(image, label, img_shape=224):
     """
     image = tf.image.resize(image, [img_shape, img_shape]) # reshape to img_shape
     return tf.cast(image, tf.float32), label # return (float32_image, label) tuple
+
+# Create a helper function to compare our baseline results to new model results
+def compare_baseline_to_new_results(baseline_results, new_model_results):
+    for key, value in baseline_results.items():
+        print(f"Baseline {key}: {value:.2f}, New {key}: {new_model_results[key]:.2f}, Difference: {new_model_results[key]-value:.2f}")

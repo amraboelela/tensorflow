@@ -37,6 +37,8 @@ After done running in google colab, then copy the resulted `07_food_vision/data`
 
 ## Tensorboard
 
+To view online https://tensorboard.dev/experiments/
+
 To setup tensorboard in Ubuntu using Nginx, do the following:
 
 ```
