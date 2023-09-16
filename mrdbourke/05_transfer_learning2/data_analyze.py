@@ -29,7 +29,7 @@ input_tensor = tf.random.normal(input_shape)
 print(f"Random input tensor:\n {input_tensor}\n")
 
 # Pass the random tensor through a global average pooling 2D layer
-global_average_pooled_tensor = tf.keras.layers.GlobalAveragePooling2D()(input_tensor)
+global_average_pooled_tensor = GlobalAveragePooling2D()(input_tensor)
 print(f"2D global average pooled random tensor:\n {global_average_pooled_tensor}\n")
 
 # Check the shapes of the different tensors
@@ -41,8 +41,8 @@ print("# This is the same as GlobalAveragePooling2D()")
 print(tf.reduce_mean(input_tensor, axis=[1, 2]), "# average across the middle axes")
 
 print("")
-print("# Doing the same but for tf.keras.layers.GlobalMaxPool2D()")
-global_max_pooled_tensor = tf.keras.layers.GlobalMaxPool2D()(input_tensor)
+print("# Doing the same but for GlobalMaxPool2D()")
+global_max_pooled_tensor = GlobalMaxPool2D()(input_tensor)
 print(global_max_pooled_tensor)
 
 print("")

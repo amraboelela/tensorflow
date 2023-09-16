@@ -4,12 +4,14 @@ from common import *
 tf.random.set_seed(42)
 
 # Create a new model (same as model_2)
-model1 = tf.keras.Sequential([
-  tf.keras.layers.Dense(1),
-  tf.keras.layers.Dense(1)
+model1 = Sequential([
+    Dense(1),
+    Dense(1)
 ])
 
 # Compile the model
-model1.compile(loss=tf.keras.losses.mae,
-                        optimizer=tf.keras.optimizers.SGD(),
-                        metrics=['mae'])
+model1.compile(
+    loss=mae,
+    optimizer=SGD(),
+    metrics=['mae']
+)

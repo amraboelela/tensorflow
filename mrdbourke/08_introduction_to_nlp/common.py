@@ -21,7 +21,6 @@ train_sentences, val_sentences, train_labels, val_labels = train_test_split(
 ) # random state for reproducibility
 
 # Before TensorFlow 2.6
-# from tensorflow.keras.layers.experimental.preprocessing import TextVectorization
 # Note: in TensorFlow 2.6+, you no longer need "layers.experimental.preprocessing"
 # you can use: "tf.keras.layers.TextVectorization", see https://github.com/tensorflow/tensorflow/releases/tag/v2.6.0 for more
 
@@ -49,7 +48,7 @@ text_vectorizer = TextVectorization(
 # Fit the text vectorizer to the training text
 text_vectorizer.adapt(train_sentences)
 
-embedding = layers.Embedding(
+embedding = Embedding(
     input_dim=max_vocab_length, # set input shape
     output_dim=128, # set size of embedding vector
     embeddings_initializer="uniform", # default, intialize randomly

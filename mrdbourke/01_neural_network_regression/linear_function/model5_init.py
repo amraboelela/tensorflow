@@ -4,13 +4,14 @@ from common2 import *
 tf.random.set_seed(42)
 
 # Replicate model4
-model5 = tf.keras.Sequential([
-  tf.keras.layers.Dense(1),
-  tf.keras.layers.Dense(1)
+model5 = Sequential([
+    Dense(1),
+    Dense(1)
 ])
 
 # Compile the model
-model5.compile(loss=tf.keras.losses.mae,
-                optimizer=tf.keras.optimizers.SGD(),
-                metrics=['mae'])
-
+model5.compile(
+    loss=mae,
+    optimizer=SGD(),
+    metrics=['mae']
+)

@@ -1,7 +1,7 @@
 from common import *
 
 # 1. Create base model with tf.keras.applications
-base_model = tf.keras.applications.EfficientNetB0(include_top=False)
+base_model = EfficientNetB0(include_top=False)
 
 # 2. Freeze the base model (so the pre-learned patterns remain)
 base_model.trainable = False
@@ -18,11 +18,11 @@ x = base_model(inputs)
 print(f"Shape after base_model: {x.shape}")
 
 # 6. Average pool the outputs of the base model (aggregate all the most important information, reduce number of computations)
-x = tf.keras.layers.GlobalAveragePooling2D(name="global_average_pooling_layer")(x)
+x = GlobalAveragePooling2D(name="global_average_pooling_layer")(x)
 print(f"After GlobalAveragePooling2D(): {x.shape}")
 
 # 7. Create the output activation layer
-outputs = tf.keras.layers.Dense(10, activation="softmax", name="output_layer")(x)
+outputs = Dense(10, activation="softmax", name="output_layer")(x)
 
 # 8. Combine the inputs with the outputs into a model
 model1 = tf.keras.Model(inputs, outputs)
@@ -30,6 +30,6 @@ model1 = tf.keras.Model(inputs, outputs)
 # 9. Compile the model
 model1.compile(
     loss='categorical_crossentropy',
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )

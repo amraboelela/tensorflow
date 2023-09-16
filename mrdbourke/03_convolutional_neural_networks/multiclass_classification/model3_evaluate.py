@@ -40,6 +40,6 @@ pred_and_plot(model3, "03-hamburger.jpeg", class_names)
 model3.save("data/model3-full.keras")
 
 # Load in a model and evaluate it
-loaded_model3 = tf.keras.models.load_model("data/model3-full.keras")
+loaded_model3 = load_model("data/model3-full.keras")
 loaded_model3.evaluate(test_data)
 

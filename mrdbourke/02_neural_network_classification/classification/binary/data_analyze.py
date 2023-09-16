@@ -72,11 +72,11 @@ plt.savefig('data/images/relu_A.png', format='png')
 
 print("")
 print("# Linear - https://www.tensorflow.org/api_docs/python/tf/keras/activations/linear (returns input non-modified...)")
-print(tf.keras.activations.linear(A))
+print(linear(A))
 
 print("")
 print("# Does the linear activation change anything?")
-print(A == tf.keras.activations.linear(A))
+print(A == linear(A))
 
 print("")
 print("# How many examples are in the whole dataset?")

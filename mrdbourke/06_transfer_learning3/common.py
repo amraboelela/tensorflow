@@ -11,13 +11,13 @@ test_dir = "data/101_food_classes_10_percent/test/"
 
 IMG_SIZE = (224, 224)
 
-train_data_all_10_percent = tf.keras.preprocessing.image_dataset_from_directory(
+train_data_all_10_percent = image_dataset_from_directory(
     train_dir,
     label_mode="categorical",
     image_size=IMG_SIZE
 )
 
-test_data = tf.keras.preprocessing.image_dataset_from_directory(
+test_data = image_dataset_from_directory(
     test_dir,
     label_mode="categorical",
     image_size=IMG_SIZE,

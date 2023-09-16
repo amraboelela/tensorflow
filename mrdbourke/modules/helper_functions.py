@@ -15,11 +15,16 @@ from sklearn.pipeline import Pipeline
 
 import tensorflow as tf
 from tensorflow.keras import layers, Sequential, mixed_precision
+from tensorflow.keras.activations import linear, relu, sigmoid
+from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.callbacks import EarlyStopping, LearningRateScheduler, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
 from tensorflow.keras.datasets import fashion_mnist
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Activation, TextVectorization
+from tensorflow.keras.layers import Activation, Conv2D, Dense, Embedding, Flatten, GlobalAveragePooling2D, GlobalMaxPool2D, MaxPool2D, TextVectorization
 from tensorflow.keras.layers.experimental import preprocessing
-from tensorflow.keras.models import load_model
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import binary_crossentropy, BinaryCrossentropy, mae, SparseCategoricalCrossentropy
+from tensorflow.keras.models import clone_model, load_model
+from tensorflow.keras.optimizers import Adam, SGD
+from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.utils import plot_model
 
@@ -226,8 +231,8 @@ def tensorboard_callback(dir_name):
     dir_name: target directory to store TensorBoard log files
     """
     log_dir = "data/" + dir_name + "/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    result = tf.keras.callbacks.TensorBoard(
-      log_dir=log_dir
+    result = TensorBoard(
+        log_dir=log_dir
     )
     print(f"Saving TensorBoard log files to: {log_dir}")
     return result
@@ -236,7 +241,7 @@ def checkpoint_path(index):
     return "data/model" + str(index) + "/checkpoint.ckpt"
     
 def checkpoint_callback(index):
-    result = tf.keras.callbacks.ModelCheckpoint(
+    result = ModelCheckpoint(
         filepath=checkpoint_path(index),
         save_weights_only=True, # set to False to save the entire model
         save_best_only=True, # save only the best model weights instead of a model every epoch
@@ -245,12 +250,14 @@ def checkpoint_callback(index):
     )
     return result
 
-def plot_predictions(train_data,
-                     train_labels,
-                     test_data,
-                     test_labels,
-                     predictions,
-                     index):
+def plot_predictions(
+    train_data,
+    train_labels,
+    test_data,
+    test_labels,
+    predictions,
+    index
+):
     """
     Plots training data, test data and compares predictions.
     """
@@ -278,15 +285,17 @@ def create_model(model_url, num_classes=10):
     extractor layer and Dense output layer with num_classes outputs.
     """
     # Download the pretrained model and save it as a Keras layer
-    feature_extractor_layer = hub.KerasLayer(model_url,
-                                           trainable=False, # freeze the underlying patterns
-                                           name='feature_extraction_layer',
-                                           input_shape=IMAGE_SHAPE+(3,)) # define the input image shape
+    feature_extractor_layer = hub.KerasLayer(
+        model_url,
+        trainable=False, # freeze the underlying patterns
+        name='feature_extraction_layer',
+        input_shape=IMAGE_SHAPE+(3,)
+    ) # define the input image shape
 
     # Create our own model
-    model = tf.keras.Sequential([
-    feature_extractor_layer, # use the feature extraction layer as the base
-    layers.Dense(num_classes, activation='softmax', name='output_layer') # create our own output layer
+    model = Sequential([
+        feature_extractor_layer, # use the feature extraction layer as the base
+        layers.Dense(num_classes, activation='softmax', name='output_layer') # create our own output layer
     ])
     return model
   
@@ -423,10 +432,12 @@ def calculate_results(y_true, y_pred):
     model_accuracy = accuracy_score(y_true, y_pred) * 100
     # Calculate model precision, recall and f1 score using "weighted average
     model_precision, model_recall, model_f1, _ = precision_recall_fscore_support(y_true, y_pred, average="weighted")
-    model_results = {"accuracy": model_accuracy,
-                  "precision": model_precision,
-                  "recall": model_recall,
-                  "f1": model_f1}
+    model_results = {
+        "accuracy": model_accuracy,
+        "precision": model_precision,
+        "recall": model_recall,
+        "f1": model_f1
+    }
     return model_results
 
 # Our function needs a different name to sklearn's plot_confusion_matrix
@@ -472,13 +483,15 @@ def make_confusion_matrix(y_true, y_pred, classes=None, figsize=(10, 10), text_s
         labels = np.arange(cm.shape[0])
 
     # Label the axes
-    ax.set(title="Confusion Matrix",
-         xlabel="Predicted label",
-         ylabel="True label",
-         xticks=np.arange(n_classes), # create enough axis slots for each class
-         yticks=np.arange(n_classes),
-         xticklabels=labels, # axes will labeled with class names (if they exist) or ints
-         yticklabels=labels)
+    ax.set(
+        title="Confusion Matrix",
+        xlabel="Predicted label",
+        ylabel="True label",
+        xticks=np.arange(n_classes), # create enough axis slots for each class
+        yticks=np.arange(n_classes),
+        xticklabels=labels, # axes will labeled with class names (if they exist) or ints
+        yticklabels=labels
+    )
 
     # Make x-axis labels appear on bottom
     ax.xaxis.set_label_position("bottom")
