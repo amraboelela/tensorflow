@@ -15,19 +15,25 @@ if model2_evaluate is None:
     save_tensor(model2_evaluate, "model2_evaluate")
 print(model2_evaluate)
 
+print("")
 print(embedding.weights)
 
+print("")
 embed_weights = model2.get_layer("embedding_1").get_weights()[0]
 print(embed_weights.shape)
 
+# View tensorboard logs of transfer learning modelling experiments (should be 4 models)
+# Upload TensorBoard dev records
+#!tensorboard dev upload --logdir ./data/NLP --name "NLP" 
+
 print("")
 print("# Make predictions (these come back in the form of probabilities)")
-model2_pred_probs = model2.predict(val_sentences)
-print(model2_pred_probs[:10], "# only print out the first 10 prediction probabilities")
+model2_preds = model2.predict(val_sentences)
+print(model2_preds[:10], "# only print out the first 10 prediction probabilities")
 
 print("")
 print("# Turn prediction probabilities into single-dimension tensor of floats")
-model2_preds = tf.squeeze(tf.round(model2_pred_probs)) # squeeze removes single dimensions
+model2_preds = tf.squeeze(tf.round(model2_preds)) # squeeze removes single dimensions
 print(model2_preds[:20])
 
 print("")
@@ -40,10 +46,11 @@ print(model2_results)
 
 print("")
 print("# Is our simple Keras model better than our baseline model?")
-print(np.array(list(model2_results.values())) > np.array(list(baseline_results.values())))
+print(np.array(list(model2_results.values())) > np.array(list(model1_results.values())))
 
+print("")
 compare_baseline_to_new_results(
-    baseline_results=baseline_results,
+    baseline_results=model1_results,
     new_model_results=model2_results
 )
 

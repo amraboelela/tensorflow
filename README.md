@@ -90,6 +90,12 @@ If you want to run tensorboard for e.g.
 % tensorboard --logdir ./data/transfer_learning
 ```
 
+To upload to tensorboard
+
+```
+% tensorboard dev upload --logdir ./data/transfer_learning --name "transfer_learning" 
+```
+
 **To browse a file**
 http://ai:8080/ai/tensorflow/mrdbourke/06_transfer_learning3/data/101_food_classes_10_percent/train/sushi/737630.jpg
 

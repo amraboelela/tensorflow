@@ -82,3 +82,29 @@ print("")
 print("# Check out a single token's embedding")
 print(sample_embed[0][0])
 
+print("")
+print("# Embedding of a sample sentence:")
+sample_sentence = "Hiroshima: 70 years since the worst mass murder in human history. Never forget. http://t.co/jLu2J5QS8U"
+print(sample_sentence)
+
+print("")
+sample_vectorized = text_vectorizer([sample_sentence])
+print("# Sample vectorized:")
+print(sample_vectorized)
+   
+print("")
+print("# Sample embedded:")
+sample_embed = embedding(sample_vectorized)
+print(sample_embed)
+
+print("")
+print("# Embedding of the word `Hiroshima`")
+print(sample_embed[0][0])
+
+print("")
+print("# Embedding of the word `the`")
+print(sample_embed[0][4])
+
+print("")
+print("# Embedding of the word `in`")
+print(sample_embed[0][8])

@@ -19,7 +19,7 @@ from tensorflow.keras.activations import linear, relu, sigmoid
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.callbacks import EarlyStopping, LearningRateScheduler, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
 from tensorflow.keras.datasets import fashion_mnist
-from tensorflow.keras.layers import Activation, Conv2D, Dense, Embedding, Flatten, GlobalAveragePooling2D, GlobalMaxPool2D, MaxPool2D, TextVectorization
+from tensorflow.keras.layers import Activation, Conv2D, Dense, Embedding, Flatten, GlobalAveragePooling1D, GlobalAveragePooling2D, GlobalMaxPool2D, GRU, LSTM, MaxPool2D, TextVectorization
 from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.keras.losses import binary_crossentropy, BinaryCrossentropy, mae, SparseCategoricalCrossentropy
 from tensorflow.keras.models import clone_model, load_model
