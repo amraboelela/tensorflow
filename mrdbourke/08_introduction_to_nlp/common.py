@@ -56,3 +56,7 @@ embedding = Embedding(
     name="embedding_1"
 )
 
+inputs = layers.Input(shape=(1,), dtype="string") # inputs are 1-dimensional strings
+x = text_vectorizer(inputs) # turn the input text into numbers
+x = embedding(x) # create an embedding of the numerized numbers
+print(x.shape)

@@ -18,7 +18,7 @@ model4_preds = tf.squeeze(tf.round(model4_pred_probs))
 print(model4_preds[:10])
 
 print("")
-print("# Calculate LSTM model results")
+print("# Calculate model results")
 model4_results = calculate_results(
     y_true=val_labels,
     y_pred=model4_preds

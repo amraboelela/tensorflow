@@ -19,7 +19,7 @@ from tensorflow.keras.activations import linear, relu, sigmoid
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.callbacks import EarlyStopping, LearningRateScheduler, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
 from tensorflow.keras.datasets import fashion_mnist
-from tensorflow.keras.layers import Activation, Conv2D, Dense, Embedding, Flatten, GlobalAveragePooling1D, GlobalAveragePooling2D, GlobalMaxPool2D, GRU, LSTM, MaxPool2D, TextVectorization
+from tensorflow.keras.layers import Activation, Bidirectional, Conv1D, Conv2D, Dense, Embedding, Flatten, GlobalAveragePooling1D, GlobalAveragePooling2D, GlobalMaxPool1D, GlobalMaxPool2D, GRU, LSTM, MaxPool2D, RandomFlip, RandomRotation, RandomZoom, RandomHeight, RandomWidth, TextVectorization
 from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.keras.losses import binary_crossentropy, BinaryCrossentropy, mae, SparseCategoricalCrossentropy
 from tensorflow.keras.models import clone_model, load_model
@@ -50,11 +50,11 @@ subprocess.run(['mkdir', '-p', 'data/images'])
     
 # NEW: Newer versions of TensorFlow (2.10+) can use the tensorflow.keras.layers API directly for data augmentation
 data_augmentation = Sequential( [
-        layers.RandomFlip("horizontal"),
-        layers.RandomRotation(0.2),
-        layers.RandomZoom(0.2),
-        layers.RandomHeight(0.2),
-        layers.RandomWidth(0.2),
+        RandomFlip("horizontal"),
+        RandomRotation(0.2),
+        RandomZoom(0.2),
+        RandomHeight(0.2),
+        RandomWidth(0.2),
         # preprocessing.Rescaling(1./255) # keep for ResNet50V2, remove for EfficientNetB0
     ],
     name = "data_augmentation"
@@ -295,7 +295,7 @@ def create_model(model_url, num_classes=10):
     # Create our own model
     model = Sequential([
         feature_extractor_layer, # use the feature extraction layer as the base
-        layers.Dense(num_classes, activation='softmax', name='output_layer') # create our own output layer
+        Dense(num_classes, activation='softmax', name='output_layer') # create our own output layer
     ])
     return model
   

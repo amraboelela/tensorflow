@@ -108,3 +108,17 @@ print(sample_embed[0][4])
 print("")
 print("# Embedding of the word `in`")
 print(sample_embed[0][8])
+
+print("")
+print("# Test out the embedding, 1D convolutional and max pooling")
+embedding_test = embedding(text_vectorizer(["this is a test sentence"])) # turn target sentence into embedding
+conv_1d = Conv1D(filters=32, kernel_size=5, activation="relu") # convolve over target sequence 5 words at a time
+conv_1d_output = conv_1d(embedding_test) # pass embedding through 1D convolutional layer
+max_pool = GlobalMaxPool1D()
+max_pool_output = max_pool(conv_1d_output) # get the most important features
+print(embedding_test.shape, conv_1d_output.shape, max_pool_output.shape)
+
+print("")
+print("# See the outputs of each layer")
+print(embedding_test[:1], conv_1d_output[:1], max_pool_output[:1])
+
