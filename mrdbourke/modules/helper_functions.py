@@ -31,6 +31,7 @@ from tensorflow.keras.utils import plot_model
 import tensorflow_datasets as tfds
 
 import tensorflow_hub as hub
+from tensorflow_hub import KerasLayer
 
 import datetime
 import itertools
@@ -151,10 +152,14 @@ def plot_random_image(model, images, true_labels, classes):
         color = "red"
 
     # Add xlabel information (prediction/true label)
-    plt.xlabel("Pred: {} {:2.0f}% (True: {})".format(pred_label,
-                                                   100*tf.reduce_max(pred_probs),
-                                                   true_label),
-             color=color) # set the color to green or red
+    plt.xlabel(
+        "Pred: {} {:2.0f}% (True: {})".format(
+            pred_label,
+            100*tf.reduce_max(pred_probs),
+            true_label
+        ),
+        color=color
+    ) # set the color to green or red
     plt.savefig('data/images/random_image_predict.png', format='png')
     
 # Make a function to predict on images and plot them (works with multi-class)

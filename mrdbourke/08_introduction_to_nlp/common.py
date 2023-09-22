@@ -59,4 +59,27 @@ embedding = Embedding(
 inputs = layers.Input(shape=(1,), dtype="string") # inputs are 1-dimensional strings
 x = text_vectorizer(inputs) # turn the input text into numbers
 x = embedding(x) # create an embedding of the numerized numbers
-print(x.shape)
+
+sample_sentence = "There's a flood in my street!"
+
+# Define a path to save the model
+model_path = "data/universal_sentence_encoder"
+if path.exists(model_path):
+    embed = tf.saved_model.load(model_path)
+else:
+    embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4") # load Universal Sentence Encoder
+    tf.saved_model.save(embed, model_path)
+
+embed_samples = embed([
+    sample_sentence,
+    "When you call the universal sentence encoder on a sentence, it turns it into numbers."
+])
+
+# One kind of correct way (there are more) to make data subset
+# (split the already split train_sentences/train_labels)
+train_sentences_90_percent, train_sentences_10_percent, train_labels_90_percent, train_labels_10_percent = train_test_split(
+    np.array(train_sentences),
+    train_labels,
+    test_size=0.1,
+    random_state=42
+)

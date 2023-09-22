@@ -2,6 +2,8 @@ from common import *
 
 print(f"Notebook last run (end-to-end): {datetime.datetime.now()}")
 
+print(x.shape)
+
 print("")
 print("# Turn .csv files into pandas DataFrame's")
 print(train_df.head())
@@ -46,7 +48,6 @@ print(round(sum([len(i.split()) for i in train_sentences])/len(train_sentences))
 
 print("")
 print("# Create sample sentence and tokenize it")
-sample_sentence = "There's a flood in my street!"
 print(text_vectorizer([sample_sentence]))
 
 print("")
@@ -121,4 +122,22 @@ print(embedding_test.shape, conv_1d_output.shape, max_pool_output.shape)
 print("")
 print("# See the outputs of each layer")
 print(embedding_test[:1], conv_1d_output[:1], max_pool_output[:1])
+
+print("")
+print("# Example of pretrained embedding with universal sentence encoder - https://tfhub.dev/google/universal-sentence-encoder/4")
+print(embed_samples[0][:50])
+
+print("")
+print("# Each sentence has been encoded into a 512 dimension vector")
+print(embed_samples[0].shape)
+
+print("")
+print("# Check length of 10 percent datasets")
+print(f"Total training examples: {len(train_sentences)}")
+print(f"Length of 10% training examples: {len(train_sentences_10_percent)}")
+
+print("")
+print("# Check the number of targets in our subset of data")
+print("# (this should be close to the distribution of labels in the original train_labels)")
+print(pd.Series(train_labels_10_percent).value_counts())
 
