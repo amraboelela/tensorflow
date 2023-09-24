@@ -83,3 +83,12 @@ train_sentences_90_percent, train_sentences_10_percent, train_labels_90_percent,
     test_size=0.1,
     random_state=42
 )
+
+# We can use this encoding layer in place of our text_vectorizer and embedding layer
+sentence_encoder_layer = KerasLayer(
+    "https://tfhub.dev/google/universal-sentence-encoder/4",
+    input_shape=[], # shape of inputs coming to our model
+    dtype=tf.string, # data type of inputs coming to the USE layer
+    trainable=False, # keep the pretrained weights (we'll create a feature extractor)
+    name="USE"
+)

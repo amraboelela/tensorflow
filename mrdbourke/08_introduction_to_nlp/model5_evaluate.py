@@ -26,7 +26,7 @@ model5_results = calculate_results(
 print(model5_results)
 
 print("")
-print("# Compare model5 to baseline")
+print("# Compare model5 to model1")
 compare_baseline_to_new_results(model1_results, model5_results)
 
 print("")

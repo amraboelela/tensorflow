@@ -1,5 +1,5 @@
 from model7_init import *
-   
+
 tensorboard_path = "NLP/model7"
 subprocess.run(['rm', '-r', "data/" + tensorboard_path])
 
@@ -18,3 +18,9 @@ history7 = model7.fit(
 # Save the history to a file
 with open('data/history7.pkl', 'wb') as file:
     pickle.dump(history7.history, file)
+
+# Save TF Hub Sentence Encoder model to HDF5 format
+#model7.save("data/model7.h5")
+
+# Save TF Hub Sentence Encoder model to SavedModel format (default)
+#model7.save("model7_SavedModel_format")

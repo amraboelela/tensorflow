@@ -19,3 +19,4 @@ history8 = model8.fit(
 # Save the history to a file
 with open('data/history8.pkl', 'wb') as file:
     pickle.dump(history8.history, file)
+
