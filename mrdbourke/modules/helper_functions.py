@@ -1,6 +1,17 @@
 ### We create a bunch of helpful functions throughout the course.
 ### Storing them here so they're easily accessible.
 
+import datetime
+import itertools
+import io
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pathlib
+import pickle
+import random
+
 import os
 from os import path
 
@@ -33,17 +44,8 @@ import tensorflow_datasets as tfds
 import tensorflow_hub as hub
 from tensorflow_hub import KerasLayer
 
-import datetime
-import itertools
-import io
-import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import pathlib
-import pickle
-import random
 import subprocess
+import time
 
 IMAGE_SHAPE = (224, 224)
 
@@ -290,7 +292,7 @@ def create_model(model_url, num_classes=10):
     extractor layer and Dense output layer with num_classes outputs.
     """
     # Download the pretrained model and save it as a Keras layer
-    feature_extractor_layer = hub.KerasLayer(
+    feature_extractor_layer = KerasLayer(
         model_url,
         trainable=False, # freeze the underlying patterns
         name='feature_extraction_layer',
@@ -603,3 +605,37 @@ def preprocess_img(image, label, img_shape=224):
 def compare_baseline_to_new_results(baseline_results, new_model_results):
     for key, value in baseline_results.items():
         print(f"Baseline {key}: {value:.2f}, New {key}: {new_model_results[key]:.2f}, Difference: {new_model_results[key]-value:.2f}")
+
+def predict_on_sentence(model, sentence):
+    """
+    Uses model to make a prediction on sentence.
+
+    Returns the sentence, the predicted label and the prediction probability.
+    """
+    pred_prob = model.predict([sentence])
+    pred_label = tf.squeeze(tf.round(pred_prob)).numpy()
+    print(f"Pred: {pred_label}", "(real disaster)" if pred_label > 0 else "(not real disaster)", f"Prob: {pred_prob[0][0]}")
+    print(f"Text:\n{sentence}")
+    print("")
+  
+# Calculate the time of predictions
+def pred_timer(model, samples):
+    """
+    Times how long a model takes to make predictions on samples.
+  
+    Args:
+    ----
+    model = a trained model
+    sample = a list of samples
+
+    Returns:
+    ----
+    total_time = total elapsed time for model to make predictions on samples
+    time_per_pred = time in seconds per single sample
+    """
+    start_time = time.perf_counter() # get start time
+    model.predict(samples) # make predictions
+    end_time = time.perf_counter() # get finish time
+    total_time = end_time-start_time # calculate how long predictions took to make
+    time_per_pred = total_time/len(samples) # find prediction time per sample
+    return total_time, time_per_pred

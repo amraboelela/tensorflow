@@ -7,7 +7,7 @@ subprocess.run(['rm', '-r', "data/" + tensorboard_path])
 history9 = model9.fit(
     train_sentences,
     train_labels,
-    epochs=50,
+    epochs=5,
     validation_data=(val_sentences, val_labels),
     callbacks=[
         tensorboard_callback(tensorboard_path),

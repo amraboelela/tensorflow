@@ -60,15 +60,10 @@ inputs = layers.Input(shape=(1,), dtype="string") # inputs are 1-dimensional str
 x = text_vectorizer(inputs) # turn the input text into numbers
 x = embedding(x) # create an embedding of the numerized numbers
 
-sample_sentence = "There's a flood in my street!"
+print("# Load Universal Sentence Encoder")
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4") # load Universal Sentence Encoder
 
-# Define a path to save the model
-model_path = "data/universal_sentence_encoder"
-if path.exists(model_path):
-    embed = tf.saved_model.load(model_path)
-else:
-    embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4") # load Universal Sentence Encoder
-    tf.saved_model.save(embed, model_path)
+sample_sentence = "There's a flood in my street!"
 
 embed_samples = embed([
     sample_sentence,
@@ -82,13 +77,4 @@ train_sentences_90_percent, train_sentences_10_percent, train_labels_90_percent,
     train_labels,
     test_size=0.1,
     random_state=42
-)
-
-# We can use this encoding layer in place of our text_vectorizer and embedding layer
-sentence_encoder_layer = KerasLayer(
-    "https://tfhub.dev/google/universal-sentence-encoder/4",
-    input_shape=[], # shape of inputs coming to our model
-    dtype=tf.string, # data type of inputs coming to the USE layer
-    trainable=False, # keep the pretrained weights (we'll create a feature extractor)
-    name="USE"
 )

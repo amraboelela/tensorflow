@@ -82,3 +82,52 @@ for row in most_wrong[-10:].itertuples():
   print(f"Text:\n{text}\n")
   print("----\n")
 print("")
+
+print("# Making predictions on the test dataset")
+test_sentences = test_df["text"].to_list()
+test_samples = random.sample(test_sentences, 10)
+for test_sample in test_samples:
+  pred_prob = tf.squeeze(model7.predict([test_sample])) # has to be list
+  pred = tf.round(pred_prob)
+  print(f"Pred: {int(pred)}, Prob: {pred_prob}")
+  print(f"Text:\n{test_sample}\n")
+  print("----\n")
+print("")
+
+print("# Turn Tweet into string")
+daniels_tweet = "Life like an ensemble: take the best choices from others and make your own"
+
+print("# Make a prediction on Tweet from the wild")
+predict_on_sentence(
+    model=model7, # use the USE model
+    sentence=daniels_tweet
+)
+print("")
+
+print("# Source - https://twitter.com/BeirutCityGuide/status/1290696551376007168")
+beirut_tweet_1 = "Reports that the smoke in Beirut sky contains nitric acid, which is toxic. Please share and refrain from stepping outside unless urgent. #Lebanon"
+
+print("# Source - https://twitter.com/BeirutCityGuide/status/1290773498743476224")
+beirut_tweet_2 = "#Beirut declared a “devastated city”, two-week state of emergency officially declared. #Lebanon"
+
+print("# Predict on diaster Tweet 1")
+predict_on_sentence(
+    model=model7,
+    sentence=beirut_tweet_1
+)
+                    
+predict_on_sentence(
+    model=model7,
+    sentence=beirut_tweet_2
+)
+print("")
+
+print("# Calculate TF Hub Sentence Encoder prediction times")
+model7_total_pred_time, model7_time_per_pred = pred_timer(model7, val_sentences)
+print(model7_total_pred_time, model7_time_per_pred)
+print("")
+
+print("# Calculate Naive Bayes prediction times")
+model1_total_pred_time, model1_time_per_pred = pred_timer(model1, val_sentences)
+print(model1_total_pred_time, model1_time_per_pred)
+print("")
