@@ -131,3 +131,12 @@ print("# Calculate Naive Bayes prediction times")
 model1_total_pred_time, model1_time_per_pred = pred_timer(model1, val_sentences)
 print(model1_total_pred_time, model1_time_per_pred)
 print("")
+
+plt.figure(figsize=(10, 7))
+plt.scatter(model1_time_per_pred, model1_results["f1"], label="baseline")
+plt.scatter(model7_time_per_pred, model7_results["f1"], label="tf_hub_sentence_encoder")
+plt.legend()
+plt.title("F1-score versus time per prediction")
+plt.xlabel("Time per prediction")
+plt.ylabel("F1-Score");
+plt.savefig('data/images/score_versus_time.png', format='png')
