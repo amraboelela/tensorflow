@@ -2,27 +2,30 @@
 ### Storing them here so they're easily accessible.
 
 import datetime
-import itertools
 import io
+import itertools
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
+
+import os
+from os import path
+
 import pandas as pd
 import pathlib
 import pickle
 import random
 
-import os
-from os import path
-
 from sklearn.compose import make_column_transformer
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler, OneHotEncoder
 from sklearn.datasets import make_circles
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+
+import subprocess
 
 import tensorflow as tf
 from tensorflow.keras import layers, Sequential, mixed_precision
@@ -44,7 +47,6 @@ import tensorflow_datasets as tfds
 import tensorflow_hub as hub
 from tensorflow_hub import KerasLayer
 
-import subprocess
 import time
 
 IMAGE_SHAPE = (224, 224)
