@@ -9,6 +9,6 @@ model5 = tf.keras.Model(inputs, outputs, name="model5_Bidirectional")
 # Compile
 model5.compile(
     loss="binary_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )

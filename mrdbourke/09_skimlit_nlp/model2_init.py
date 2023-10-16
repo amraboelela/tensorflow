@@ -12,6 +12,6 @@ model2 = tf.keras.Model(inputs, outputs)
 # Compile
 model2.compile(
     loss="categorical_crossentropy", # if your labels are integer form (not one hot) use sparse_categorical_crossentropy
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )

@@ -55,7 +55,7 @@ text_vectorizer.adapt(train_sentences)
 rct_20k_text_vocab = text_vectorizer.get_vocabulary()
 
 # Create token embedding layer
-token_embed = layers.Embedding(
+token_embed = Embedding(
     input_dim=len(rct_20k_text_vocab), # length of vocabulary
     output_dim=128, # Note: different embedding sizes result in drastically different numbers of parameters to train
     # Use masking to handle variable sequence lengths (save space)
@@ -72,3 +72,60 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_sentences, test_labels_o
 train_dataset = train_dataset.batch(32).prefetch(tf.data.AUTOTUNE)
 valid_dataset = valid_dataset.batch(32).prefetch(tf.data.AUTOTUNE)
 test_dataset = test_dataset.batch(32).prefetch(tf.data.AUTOTUNE)
+
+random_training_sentence = random.choice(train_sentences)
+
+tf_hub_embedding_layer = KerasLayer(
+    "https://tfhub.dev/google/universal-sentence-encoder/4",
+    trainable=False,
+    name="universal_sentence_encoder"
+)
+
+char_lens = [len(sentence) for sentence in train_sentences]
+mean_char_len = np.mean(char_lens)
+output_seq_char_len = int(np.percentile(char_lens, 95))
+
+alphabet = string.ascii_lowercase + string.digits + string.punctuation
+
+# Create char-level token vectorizer instance
+NUM_CHAR_TOKENS = len(alphabet) + 2 # num characters in alphabet + space + OOV token
+char_vectorizer = TextVectorization(
+    max_tokens=NUM_CHAR_TOKENS,
+    output_sequence_length=output_seq_char_len,
+    standardize="lower_and_strip_punctuation",
+    name="char_vectorizer"
+)
+
+train_chars = [split_chars(sentence) for sentence in train_sentences]
+val_chars = [split_chars(sentence) for sentence in val_sentences]
+test_chars = [split_chars(sentence) for sentence in test_sentences]
+
+# Adapt character vectorizer to training characters
+char_vectorizer.adapt(train_chars)
+
+# Create char embedding layer
+char_embed = Embedding(
+    input_dim=NUM_CHAR_TOKENS, # number of different characters
+    output_dim=25, # embedding dimension of each character (same as Figure 1 in https://arxiv.org/pdf/1612.05251.pdf)
+    mask_zero=False, # don't use masks (this messes up model_5 if set to True)
+    name="char_embed"
+)
+                              
+# Create char datasets
+train_char_dataset = tf.data.Dataset.from_tensor_slices((train_chars, train_labels_one_hot)).batch(32).prefetch(tf.data.AUTOTUNE)
+val_char_dataset = tf.data.Dataset.from_tensor_slices((val_chars, val_labels_one_hot)).batch(32).prefetch(tf.data.AUTOTUNE)
+
+# Combine chars and tokens into a dataset
+train_char_token_data = tf.data.Dataset.from_tensor_slices((train_sentences, train_chars)) # make data
+train_char_token_labels = tf.data.Dataset.from_tensor_slices(train_labels_one_hot) # make labels
+train_char_token_dataset = tf.data.Dataset.zip((train_char_token_data, train_char_token_labels)) # combine data and labels
+
+# Prefetch and batch train data
+train_char_token_dataset = train_char_token_dataset.batch(32).prefetch(tf.data.AUTOTUNE)
+
+# Repeat same steps validation data
+val_char_token_data = tf.data.Dataset.from_tensor_slices((val_sentences, val_chars))
+val_char_token_labels = tf.data.Dataset.from_tensor_slices(val_labels_one_hot)
+val_char_token_dataset = tf.data.Dataset.zip((val_char_token_data, val_char_token_labels))
+val_char_token_dataset = val_char_token_dataset.batch(32).prefetch(tf.data.AUTOTUNE)
+

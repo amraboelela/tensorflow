@@ -25,6 +25,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
+import string
 import subprocess
 
 import tensorflow as tf
@@ -710,3 +711,6 @@ def preprocess_text_with_line_numbers(filename):
 
     return abstract_samples
      
+# Make function to split sentences into characters
+def split_chars(text):
+    return " ".join(list(text))

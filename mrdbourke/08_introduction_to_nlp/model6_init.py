@@ -9,6 +9,6 @@ model6 = tf.keras.Model(inputs, outputs, name="model6_Conv1D")
 # Compile Conv1D model
 model6.compile(
     loss="binary_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )

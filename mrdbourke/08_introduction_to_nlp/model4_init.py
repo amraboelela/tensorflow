@@ -10,7 +10,7 @@ model4 = tf.keras.Model(inputs, outputs, name="model4_GRU")
 # Compile GRU model
 model4.compile(
     loss="binary_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )
 

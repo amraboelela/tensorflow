@@ -11,6 +11,6 @@ model3 = tf.keras.Model(inputs, outputs, name="model3_LSTM")
 # Compile model
 model3.compile(
     loss="binary_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )

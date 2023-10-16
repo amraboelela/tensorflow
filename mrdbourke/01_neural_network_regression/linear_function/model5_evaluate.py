@@ -11,12 +11,14 @@ plot_model(model5, to_file='data/images/model5.png', show_shapes=True)
 print("")
 print("# Make and plot predictions for model4")
 y_preds5 = model5.predict(X_test)
-plot_predictions(train_data=X_train,
-                 train_labels=y_train,
-                 test_data=X_test,
-                 test_labels=y_test,
-                 predictions=y_preds5,
-                 index=5)
+plot_predictions(
+    train_data=X_train,
+    train_labels=y_train,
+    test_data=X_test,
+    test_labels=y_test,
+    predictions=y_preds5,
+    index=5
+)
 
 print("")
 print("# Calculate model5 metrics")

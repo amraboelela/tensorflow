@@ -6,7 +6,7 @@ model8 = tf.keras.models.clone_model(model7)
 # Compile model
 model8.compile(
     loss="binary_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )
 

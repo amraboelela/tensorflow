@@ -21,5 +21,13 @@ model2_preds = tf.argmax(model2_pred_probs, axis=1)
 print(model2_preds)
 
 print()
+print("# Calculate model2 results")
+model2_results = calculate_results(
+    y_true=val_labels_encoded,
+    y_pred=model2_preds
+)
+print(model2_results)
+
+print()
 
 

@@ -32,7 +32,7 @@ model7 = Sequential([
 # Compile model
 model7.compile(
     loss="binary_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=Adam(),
     metrics=["accuracy"]
 )
 

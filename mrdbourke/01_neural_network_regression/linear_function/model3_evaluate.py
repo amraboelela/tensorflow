@@ -12,12 +12,14 @@ y_preds = model3.predict(X_test)
 print("# View the predictions")
 print(y_preds)
 
-plot_predictions(train_data=X_train,
-                 train_labels=y_train,
-                 test_data=X_test,
-                 test_labels=y_test,
-                 predictions=y_preds,
-                 index=3)
+plot_predictions(
+    train_data=X_train,
+    train_labels=y_train,
+    test_data=X_test,
+    test_labels=y_test,
+    predictions=y_preds,
+    index=3
+)
 
 print("")
 print("# Evaluate the model on the test set")
