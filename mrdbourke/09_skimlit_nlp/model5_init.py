@@ -14,7 +14,7 @@ char_bi_lstm = layers.Bidirectional(layers.LSTM(25))(char_embeddings) # bi-LSTM 
 char_model = tf.keras.Model(char_inputs, char_bi_lstm)
 
 # 3. Concatenate token and char inputs (create hybrid token embedding)
-token_char_concat = layers.Concatenate(name="token_char_hybrid")([token_model.output,
+token_char_concat = Concatenate(name="token_char_hybrid")([token_model.output,
                                                                   char_model.output])
 
 # 4. Create output layers - addition of dropout discussed in 4.2 of https://arxiv.org/pdf/1612.05251.pdf

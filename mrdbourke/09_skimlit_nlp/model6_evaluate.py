@@ -1,8 +1,14 @@
-from model5_init import *
+from model6_init import *
 
 print()
-print("# Get summary of token and character model")
-model5.summary()
+print("# Get a summary of our token, char and positional embedding model")
+model6.summary()
+
+print()
+print("# Plot the token, char, positional embedding model")
+plot_model(model6, to_file='data/images/plot_model6.png')
+
+exit()
 
 model5.load_weights(checkpoint_path(5))
 

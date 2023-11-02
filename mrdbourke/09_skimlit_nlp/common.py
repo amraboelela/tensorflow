@@ -129,3 +129,13 @@ val_char_token_labels = tf.data.Dataset.from_tensor_slices(val_labels_one_hot)
 val_char_token_dataset = tf.data.Dataset.zip((val_char_token_data, val_char_token_labels))
 val_char_token_dataset = val_char_token_dataset.batch(32).prefetch(tf.data.AUTOTUNE)
 
+# Use TensorFlow to create one-hot-encoded tensors of our 'line_number' column
+train_line_numbers_one_hot = tf.one_hot(train_df["line_number"].to_numpy(), depth=15)
+val_line_numbers_one_hot = tf.one_hot(val_df["line_number"].to_numpy(), depth=15)
+test_line_numbers_one_hot = tf.one_hot(test_df["line_number"].to_numpy(), depth=15)
+
+# Use TensorFlow to create one-hot-encoded tensors of our "total_lines" column
+train_total_lines_one_hot = tf.one_hot(train_df["total_lines"].to_numpy(), depth=20)
+val_total_lines_one_hot = tf.one_hot(val_df["total_lines"].to_numpy(), depth=20)
+test_total_lines_one_hot = tf.one_hot(test_df["total_lines"].to_numpy(), depth=20)
+

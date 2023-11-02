@@ -156,3 +156,39 @@ print("# Check out training char and token embedding dataset")
 print(train_char_token_dataset, val_char_token_dataset)
 
 print()
+print("# Inspect training dataframe")
+print(train_df.head())
+
+print()
+print("# How many different line numbers are there?")
+print(train_df["line_number"].value_counts())
+
+print()
+print("# Check the distribution of 'line_number' column")
+plt.figure()
+train_df.line_number.plot.hist()
+plt.savefig('data/images/train_df_line_number.png', format='png')
+
+print()
+print("# Check one-hot encoded 'line_number' feature samples")
+print(train_line_numbers_one_hot.shape, train_line_numbers_one_hot[:20])
+
+print()
+print("# How many different numbers of lines are there?")
+print(train_df["total_lines"].value_counts())
+
+print()
+print("# Check the distribution of total lines")
+plt.figure()
+train_df.total_lines.plot.hist();
+plt.savefig('data/images/train_df_total_lines.png', format='png')
+
+print()
+print("# Check the coverage of a 'total_lines' value of 20")
+print(np.percentile(train_df.total_lines, 98)) # a value of 20 covers 98% of samples
+
+print()
+print("# Check shape and samples of total lines one-hot tensor")
+print(train_total_lines_one_hot.shape, train_total_lines_one_hot[:10])
+
+print()
