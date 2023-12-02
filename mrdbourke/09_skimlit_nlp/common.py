@@ -139,3 +139,26 @@ train_total_lines_one_hot = tf.one_hot(train_df["total_lines"].to_numpy(), depth
 val_total_lines_one_hot = tf.one_hot(val_df["total_lines"].to_numpy(), depth=20)
 test_total_lines_one_hot = tf.one_hot(test_df["total_lines"].to_numpy(), depth=20)
 
+# Create training and validation datasets (all four kinds of inputs)
+train_pos_char_token_data = tf.data.Dataset.from_tensor_slices((
+    train_line_numbers_one_hot, # line numbers
+    train_total_lines_one_hot, # total lines
+    train_sentences, # train tokens
+    train_chars
+)) # train chars
+train_pos_char_token_labels = tf.data.Dataset.from_tensor_slices(train_labels_one_hot) # train labels
+train_pos_char_token_dataset = tf.data.Dataset.zip((train_pos_char_token_data, train_pos_char_token_labels)) # combine data and labels
+train_pos_char_token_dataset = train_pos_char_token_dataset.batch(32).prefetch(tf.data.AUTOTUNE) # turn into batches and prefetch appropriately
+
+# Validation dataset
+val_pos_char_token_data = tf.data.Dataset.from_tensor_slices((
+    val_line_numbers_one_hot,
+    val_total_lines_one_hot,
+    val_sentences,
+    val_chars
+))
+val_pos_char_token_labels = tf.data.Dataset.from_tensor_slices(val_labels_one_hot)
+val_pos_char_token_dataset = tf.data.Dataset.zip((val_pos_char_token_data, val_pos_char_token_labels))
+val_pos_char_token_dataset = val_pos_char_token_dataset.batch(32).prefetch(tf.data.AUTOTUNE) # turn into batches and prefetch appropriately
+
+download("https://storage.googleapis.com/ztm_tf_course/skimlit/skimlit_tribrid_model.zip")

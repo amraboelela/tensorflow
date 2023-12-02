@@ -192,3 +192,7 @@ print("# Check shape and samples of total lines one-hot tensor")
 print(train_total_lines_one_hot.shape, train_total_lines_one_hot[:10])
 
 print()
+print("# Check input shapes")
+print(train_pos_char_token_dataset, val_pos_char_token_dataset)
+
+print()

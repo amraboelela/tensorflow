@@ -30,21 +30,6 @@ print("# Compare model7 to model1")
 compare_baseline_to_new_results(model1_results, model7_results)
 
 print("")
-
-#print("# Load model with custom Hub Layer (required with HDF5 format)")
-#loaded_model7 = tf.keras.models.load_model(
-#    "data/model7.h5",
-#    custom_objects={"KerasLayer": hub.KerasLayer}
-#)
-                                            
-#print("# How does our loaded model perform?")
-#loaded_model7.evaluate(val_sentences, val_labels)
-#print("")
-
-#print("# Load TF Hub Sentence Encoder SavedModel")
-#loaded_model7_SavedModel = tf.keras.models.load_model("model7_SavedModel_format")
-
-print("")
 print("# Evaluate loaded SavedModel format")
 model7_evaluate = read_tensor("model7_evaluate")
 if model7_evaluate is None:

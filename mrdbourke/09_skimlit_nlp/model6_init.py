@@ -62,3 +62,10 @@ model6 = tf.keras.Model(inputs=[
     ],
     outputs=output_layer
 )
+
+# Compile token, char, positional embedding model
+model6.compile(
+    loss=CategoricalCrossentropy(label_smoothing=0.2), # add label smoothing (examples which are really confident get smoothed a little)
+    optimizer=Adam(),
+    metrics=["accuracy"]
+)
