@@ -57,3 +57,16 @@ test_df["correct"] = test_df["prediction"] == test_df["target"] # create binary 
 print(test_df.head(20))
 
 print()
+print("# Find top 100 most wrong samples (note: 100 is an abitrary number, you could go through all of them if you wanted)")
+top_100_wrong = test_df[test_df["correct"] == False].sort_values("pred_prob", ascending=False)[:100]
+print(top_100_wrong)
+
+print()
+print("# Investigate top wrong preds")
+for row in top_100_wrong[0:10].itertuples(): # adjust indexes to view different samples
+  _, target, text, line_number, total_lines, prediction, pred_prob, _ = row
+  print(f"Target: {target}, Pred: {prediction}, Prob: {pred_prob}, Line number: {line_number}, Total lines: {total_lines}\n")
+  print(f"Text:\n{text}\n")
+  print("-----\n")
+  
+print()

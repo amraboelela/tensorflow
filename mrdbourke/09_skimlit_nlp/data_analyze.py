@@ -196,3 +196,12 @@ print("# Check input shapes")
 print(train_pos_char_token_dataset, val_pos_char_token_dataset)
 
 print()
+print("# Download and open example abstracts (copy and pasted from PubMed)")
+print(example_abstracts)
+
+print()
+print("# See what our example abstracts look like")
+abstracts = pd.DataFrame(example_abstracts)
+print(abstracts)
+
+print()

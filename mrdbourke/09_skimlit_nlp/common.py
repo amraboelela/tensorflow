@@ -162,3 +162,13 @@ val_pos_char_token_dataset = tf.data.Dataset.zip((val_pos_char_token_data, val_p
 val_pos_char_token_dataset = val_pos_char_token_dataset.batch(32).prefetch(tf.data.AUTOTUNE) # turn into batches and prefetch appropriately
 
 download("https://storage.googleapis.com/ztm_tf_course/skimlit/skimlit_tribrid_model.zip")
+
+
+# Download and open example abstracts (copy and pasted from PubMed)
+download("https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/extras/skimlit_example_abstracts.json")
+
+with open("data/skimlit_example_abstracts.json", "r") as f:
+  example_abstracts = json.load(f)
+
+
+
