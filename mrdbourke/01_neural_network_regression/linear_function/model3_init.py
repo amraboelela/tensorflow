@@ -1,8 +1,5 @@
 from common2 import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Replicate original model
 model3 = Sequential([
     Dense(1)

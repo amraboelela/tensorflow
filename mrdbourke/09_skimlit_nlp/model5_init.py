@@ -33,7 +33,7 @@ model5 = tf.keras.Model(
 # Compile token char model
 model5.compile(
     loss="categorical_crossentropy",
-    optimizer=tf.keras.optimizers.Adam(), # section 4.2 of https://arxiv.org/pdf/1612.05251.pdf mentions using SGD but we'll stick with Adam
+    optimizer=Adam(), # section 4.2 of https://arxiv.org/pdf/1612.05251.pdf mentions using SGD but we'll stick with Adam
     metrics=["accuracy"]
 )
                 

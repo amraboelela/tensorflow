@@ -1,8 +1,5 @@
 from common2 import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Replicate model3 and add an extra layer
 model4 = Sequential([
     Dense(100, activation="relu"),

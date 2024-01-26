@@ -93,15 +93,8 @@ print(tf.random.shuffle(not_shuffled, seed=42))
 
 print("# Shuffle in the same order every time")
 
-print("# Set the global random seed")
-tf.random.set_seed(42)
-
 print("# Set the operation random seed")
 print(tf.random.shuffle(not_shuffled, seed=42))
-
-print("")
-print("# Set the global random seed")
-tf.random.set_seed(42) # if you comment this out you'll get different results
 
 print("")
 print("# Set the operation random seed")

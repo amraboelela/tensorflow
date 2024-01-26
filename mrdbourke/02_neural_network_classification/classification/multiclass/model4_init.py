@@ -4,9 +4,6 @@ from common import *
 train_data = train_data / 255.0
 test_data = test_data / 255.0
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Create the model
 model4 = Sequential([
     Flatten(input_shape=(28, 28)), # input layer (we had to reshape 28x28 to 784)

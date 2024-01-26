@@ -1,8 +1,5 @@
 from common import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Add an extra layer and increase number of units
 model2 = Sequential([
     Dense(100), # 100 units

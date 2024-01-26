@@ -1,8 +1,5 @@
 from common import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # 1. Create the model (this time 3 layers)
 model3 = Sequential([
     # Before TensorFlow 2.7.0

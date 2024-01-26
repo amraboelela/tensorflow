@@ -1,8 +1,5 @@
 from common1 import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Create a model using the Sequential API
 model1 = Sequential([
     Dense(1)

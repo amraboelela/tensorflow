@@ -1,8 +1,5 @@
 from common import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Create a model (same as model_8)
 model9 = Sequential([
     Dense(4, activation="relu"),

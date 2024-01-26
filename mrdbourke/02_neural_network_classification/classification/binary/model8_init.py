@@ -1,8 +1,5 @@
 from common import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Create the model (same as model_7)
 model8 = Sequential([
     Dense(4, activation="relu"), # hidden layer 1, using "relu" for activation (same as relu)

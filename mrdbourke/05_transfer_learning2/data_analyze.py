@@ -24,7 +24,6 @@ for images, labels in train_data_10_percent.take(1):
 input_shape = (1, 4, 4, 3)
 
 # Create a random tensor
-tf.random.set_seed(42)
 input_tensor = tf.random.normal(input_shape)
 print(f"Random input tensor:\n {input_tensor}\n")
 

@@ -168,7 +168,4 @@ download("https://storage.googleapis.com/ztm_tf_course/skimlit/skimlit_tribrid_m
 download("https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/extras/skimlit_example_abstracts.json")
 
 with open("data/skimlit_example_abstracts.json", "r") as f:
-  example_abstracts = json.load(f)
-
-
-
+    example_abstracts = json.load(f)

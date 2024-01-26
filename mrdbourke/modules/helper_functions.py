@@ -1,7 +1,9 @@
 ### We create a bunch of helpful functions throughout the course.
 ### Storing them here so they're easily accessible.
 
+import csv
 import datetime
+from datetime import datetime
 import io
 import itertools
 import json
@@ -20,11 +22,13 @@ import random
 from sklearn.compose import make_column_transformer
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler, OneHotEncoder, minmax_scale
 from sklearn.datasets import make_circles
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+
+from spacy.lang.en import English
 
 import string
 import subprocess
@@ -331,6 +335,7 @@ def plot_loss_curves(history, index):
     epochs = range(len(history['loss']))
 
     # Plot loss
+    plt.figure()
     plt.plot(epochs, loss, label='training_loss')
     plt.plot(epochs, val_loss, label='val_loss')
     plt.title('Loss')
@@ -716,3 +721,165 @@ def preprocess_text_with_line_numbers(filename):
 # Make function to split sentences into characters
 def split_chars(text):
     return " ".join(list(text))
+
+# Create a function to plot time series data
+def plot_time_series(timesteps, values, format='.', start=0, end=None, label=None, name="time_series"):
+    """
+    Plots a timesteps (a series of points in time) against values (a series of values across timesteps).
+  
+    Parameters
+    ---------
+    timesteps : array of timesteps
+    values : array of values across time
+    format : style of plot, default "."
+    start : where to start the plot (setting a value will index from start of timesteps & values)
+    end : where to end the plot (setting a value will index from end of timesteps & values)
+    label : label to show on plot of values
+    """
+    # Plot the series
+    plt.plot(timesteps[start:end], values[start:end], format, label=label)
+    plt.xlabel("Time")
+    plt.ylabel("BTC Price")
+    if label:
+        plt.legend(fontsize=14) # make label bigger
+    plt.grid(True)
+    plt.savefig('data/images/' + name + '.png', format='png')
+
+# MASE implemented courtesy of sktime - https://github.com/alan-turing-institute/sktime/blob/ee7a06843a44f4aaec7582d847e36073a9ab0566/sktime/performance_metrics/forecasting/_functions.py#L16
+def mean_absolute_scaled_error(y_true, y_pred):
+    """
+    Implement MASE (assuming no seasonality of data).
+    """
+    mae = tf.reduce_mean(tf.abs(y_true - y_pred))
+    # Find MAE of naive forecast (no seasonality)
+    mae_naive_no_season = tf.reduce_mean(tf.abs(y_true[1:] - y_true[:-1])) # our seasonality is 1 day (hence the shifting of 1 day)
+    return mae / mae_naive_no_season
+
+# Create function to label windowed data
+def get_labelled_windows(x, horizon=1):
+    """
+    Creates labels for windowed dataset.
+
+    E.g. if horizon=1 (default)
+    Input: [1, 2, 3, 4, 5, 6] -> Output: ([1, 2, 3, 4, 5], [6])
+    """
+    return x[:, :-horizon], x[:, -horizon:]
+
+# Create function to view NumPy arrays as windows
+def make_windows(x, window_size=7, horizon=1):
+    """
+    Turns a 1D array into a 2D array of sequential windows of window_size.
+    """
+    # 1. Create a window of specific window_size (add the horizon on the end for later labelling)
+    window_step = np.expand_dims(np.arange(window_size+horizon), axis=0)
+    #print(f"Window step:\n {window_step}")
+
+    # 2. Create a 2D array of multiple window steps (minus 1 to account for 0 indexing)
+    window_indexes = window_step + np.expand_dims(np.arange(len(x)-(window_size+horizon-1)), axis=0).T # create 2D array of windows of size window_size
+    #print(f"Window indexes:\n {window_indexes[:3], window_indexes[-3:], window_indexes.shape}")
+
+    # 3. Index on the target array (time series) with 2D array of multiple window steps
+    windowed_array = x[window_indexes]
+
+    # 4. Get the labelled windows
+    windows, labels = get_labelled_windows(windowed_array, horizon=horizon)
+
+    return windows, labels
+
+# Make the train/test splits
+def make_train_test_splits(windows, labels, test_split=0.2):
+    """
+    Splits matching pairs of windows and labels into train and test splits.
+    """
+    split_size = int(len(windows) * (1-test_split)) # this will default to 80% train/20% test
+    train_windows = windows[:split_size]
+    train_labels = labels[:split_size]
+    test_windows = windows[split_size:]
+    test_labels = labels[split_size:]
+    return train_windows, test_windows, train_labels, test_labels
+
+# Create a function to implement a ModelCheckpoint callback with a specific filename
+def create_model_checkpoint(model_name, save_path="data"):
+    return ModelCheckpoint(
+        filepath=os.path.join(save_path, model_name), # create filepath to save model
+        verbose=0, # only output a limited amount of text
+        save_best_only=True
+    ) # save only the best model to file
+
+def make_preds(model, input_data):
+    """
+    Uses model to make predictions on input_data.
+
+    Parameters
+    ----------
+    model: trained model
+    input_data: windowed input data (same kind of data model was trained on)
+
+    Returns model predictions on input_data.
+    """
+    forecast = model.predict(input_data)
+    return tf.squeeze(forecast) # return 1D array of predictions
+
+
+def evaluate_preds(y_true, y_pred):
+    # Make sure float32 (for metric calculations)
+    y_true = tf.cast(y_true, dtype=tf.float32)
+    y_pred = tf.cast(y_pred, dtype=tf.float32)
+
+    # Calculate various metrics
+    mae = tf.keras.metrics.mean_absolute_error(y_true, y_pred)
+    mse = tf.keras.metrics.mean_squared_error(y_true, y_pred)
+    rmse = tf.sqrt(mse)
+    mape = tf.keras.metrics.mean_absolute_percentage_error(y_true, y_pred)
+    mase = mean_absolute_scaled_error(y_true, y_pred)
+
+    # Account for different sized metrics (for longer horizons, reduce to single number)
+    if mae.ndim > 0: # if mae isn't already a scalar, reduce it to one by aggregating tensors to mean
+        mae = tf.reduce_mean(mae)
+        mse = tf.reduce_mean(mse)
+        rmse = tf.reduce_mean(rmse)
+        mape = tf.reduce_mean(mape)
+        mase = tf.reduce_mean(mase)
+
+    return {
+        "mae": mae.numpy(),
+        "mse": mse.numpy(),
+        "rmse": rmse.numpy(),
+        "mape": mape.numpy(),
+        "mase": mase.numpy()
+    }
+
+# Create NBeatsBlock custom layer
+class NBeatsBlock(tf.keras.layers.Layer):
+    def __init__(
+        self, # the constructor takes all the hyperparameters for the layer
+        input_size: int,
+        theta_size: int,
+        horizon: int,
+        n_neurons: int,
+        n_layers: int,
+        **kwargs
+    ): # the **kwargs argument takes care of all of the arguments for the parent class (input_shape, trainable, name)
+        super().__init__(**kwargs)
+        self.input_size = input_size
+        self.theta_size = theta_size
+        self.horizon = horizon
+        self.n_neurons = n_neurons
+        self.n_layers = n_layers
+
+        # Block contains stack of 4 fully connected layers each has ReLU activation
+        self.hidden = [Dense(n_neurons, activation="relu") for _ in range(n_layers)]
+        # Output of block is a theta layer with linear activation
+        self.theta_layer = Dense(theta_size, activation="linear", name="theta")
+
+    def call(self, inputs): # the call method is what runs when the layer is called
+        x = inputs
+        for layer in self.hidden: # pass inputs through each hidden layer
+            x = layer(x)
+        theta = self.theta_layer(x)
+        # Output the backcast and forecast from theta
+        backcast, forecast = theta[:, :self.input_size], theta[:, -self.horizon:]
+        return backcast, forecast
+    
+# Set random seed
+tf.random.set_seed(42)

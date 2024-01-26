@@ -1,8 +1,5 @@
 from common import *
 
-# Set the random seed
-tf.random.set_seed(42)
-
 # Create the model
 model4 = Sequential([
     Dense(1, activation=linear), # 1 hidden layer with linear activation

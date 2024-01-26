@@ -1,8 +1,5 @@
 from common import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Create a model
 model6 = Sequential([
     Dense(4, activation=relu), # hidden layer 1, 4 neurons, ReLU activation

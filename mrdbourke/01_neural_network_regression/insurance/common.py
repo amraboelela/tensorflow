@@ -22,10 +22,12 @@ X = insurance.drop("charges", axis=1)
 y = insurance["charges"]
 
 # Create training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X,
-                                                    y,
-                                                    test_size=0.2,
-                                                    random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
                                                     
 # Create column transformer (this will help us normalize/preprocess our data)
 ct = make_column_transformer(

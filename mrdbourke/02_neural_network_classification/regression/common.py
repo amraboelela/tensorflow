@@ -2,9 +2,6 @@ import sys
 sys.path.append('../../modules')
 from helper_functions import *
 
-# Set random seed
-tf.random.set_seed(42)
-
 # Create some regression data
 X_regression = np.arange(0, 1000, 5)
 y_regression = np.arange(100, 1100, 5)

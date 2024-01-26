@@ -71,4 +71,83 @@ all_model_results.sort_values("f1", ascending=False)["f1"].plot(kind="bar", figs
 plt.savefig('data/images/all_model_f1_scores.png', format='png')
 
 print()
+print("# Create sentencizer - Source: https://spacy.io/usage/linguistic-features#sbd")
+nlp = English() # setup English sentence parser
+
+print()
+print("# New version of spaCy")
+sentencizer = nlp.add_pipe("sentencizer") # create sentence splitting pipeline object
+
+print()
+print("# Old version of spaCy")
+print("# sentencizer = nlp.create_pipe('sentencizer') # create sentence splitting pipeline object")
+print("# nlp.add_pipe(sentencizer) # add sentence splitting pipeline object to sentence parser")
+
+print("# Create 'doc' of parsed sequences, change index for a different abstract")
+doc = nlp(example_abstracts[0]["abstract"])
+abstract_lines = [str(sent) for sent in list(doc.sents)] # return detected sentences from doc in string type (not spaCy token type)
+print(abstract_lines)
+
+print()
+print("# Get total number of lines")
+total_lines_in_sample = len(abstract_lines)
+
+print()
+print("# Go through each line in abstract and create a list of dictionaries containing features for each line")
+sample_lines = []
+for i, line in enumerate(abstract_lines):
+    sample_dict = {}
+    sample_dict["text"] = str(line)
+    sample_dict["line_number"] = i
+    sample_dict["total_lines"] = total_lines_in_sample - 1
+    sample_lines.append(sample_dict)
+print(sample_lines)
+
+print()
+print("# Get all line_number values from sample abstract")
+test_abstract_line_numbers = [line["line_number"] for line in sample_lines]
+print("# One-hot encode to same depth as training data, so model accepts right input shape")
+test_abstract_line_numbers_one_hot = tf.one_hot(test_abstract_line_numbers, depth=15)
+print(test_abstract_line_numbers_one_hot)
+
+print()
+print("# Get all total_lines values from sample abstract")
+test_abstract_total_lines = [line["total_lines"] for line in sample_lines]
+print("# One-hot encode to same depth as training data, so model accepts right input shape")
+test_abstract_total_lines_one_hot = tf.one_hot(test_abstract_total_lines, depth=20)
+print(test_abstract_total_lines_one_hot)
+
+print()
+print("# Split abstract lines into characters")
+abstract_chars = [split_chars(sentence) for sentence in abstract_lines]
+print(abstract_chars)
+
+print()
+print("# Make predictions on sample abstract features")
+test_abstract_pred_probs = model6.predict(
+    x=(
+        test_abstract_line_numbers_one_hot,
+        test_abstract_total_lines_one_hot,
+        tf.constant(abstract_lines),
+        tf.constant(abstract_chars)
+    )
+)
+print(test_abstract_pred_probs)
+
+print()
+print("# Turn prediction probabilities into prediction classes")
+test_abstract_preds = tf.argmax(test_abstract_pred_probs, axis=1)
+print(test_abstract_preds)
+
+print()
+print("# Turn prediction class integers into string class names")
+test_abstract_pred_classes = [label_encoder.classes_[i] for i in test_abstract_preds]
+print(test_abstract_pred_classes)
+
+print()
+print("# Visualize abstract lines and predicted sequence labels")
+for i, line in enumerate(abstract_lines):
+    print(f"{test_abstract_pred_classes[i]}: {line}")
+  
+print()
 
