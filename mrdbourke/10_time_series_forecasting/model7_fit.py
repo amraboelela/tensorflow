@@ -9,6 +9,7 @@ model7.fit(
             # callbacks=[create_model_checkpoint(model_name=stack_model.name)] # saving model every epoch consumes far too much time
     callbacks=[
         EarlyStopping(monitor="val_loss", patience=200, restore_best_weights=True),
-        ReduceLROnPlateau(monitor="val_loss", patience=100, verbose=1)
+        ReduceLROnPlateau(monitor="val_loss", patience=100, verbose=1),
+        create_model_checkpoint(model_name=model7.name)
     ]
 )
