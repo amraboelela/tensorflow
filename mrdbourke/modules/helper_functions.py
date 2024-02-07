@@ -884,59 +884,17 @@ class NBeatsBlock(tf.keras.layers.Layer):
 # Set random seed
 tf.random.set_seed(42)
 
-def get_ensemble_models(
-    horizon=HORIZON,
-    train_data=train_dataset,
-    test_data=test_dataset,
-    num_iter=10,
-    num_epochs=100,
-    loss_fns=["mae", "mse", "mape"]
-):
-    """
-    Returns a list of num_iter models each trained on MAE, MSE and MAPE loss.
+# Find upper and lower bounds of ensemble predictions
+def get_upper_lower(preds): # 1. Take the predictions of multiple randomly initialized deep learning neural networks
+  
+    # 2. Measure the standard deviation of the predictions
+    std = tf.math.reduce_std(preds, axis=0)
+  
+    # 3. Multiply the standard deviation by 1.96
+    interval = 1.96 * std # https://en.wikipedia.org/wiki/1.96
 
-    For example, if num_iter=10, a list of 30 trained models will be returned:
-    10 * len(["mae", "mse", "mape"]).
-    """
-    # Make empty list for trained ensemble models
-    ensemble_models = []
+    # 4. Get the prediction interval upper and lower bounds
+    preds_mean = tf.reduce_mean(preds, axis=0)
+    lower, upper = preds_mean - interval, preds_mean + interval
+    return lower, upper
 
-    # Create num_iter number of models per loss function
-    for i in range(num_iter):
-        # Build and fit a new model with a different loss function
-        for loss_function in loss_fns:
-            print(f"Optimizing model by reducing: {loss_function} for {num_epochs} epochs, model number: {i}")
-
-            # Construct a simple model (similar to model_1)
-            model = Sequential([
-                # Initialize layers with normal (Gaussian) distribution so we can use the models for prediction
-                # interval estimation later: https://www.tensorflow.org/api_docs/python/tf/keras/initializers/HeNormal
-                Dense(128, kernel_initializer="he_normal", activation="relu"),
-                Dense(128, kernel_initializer="he_normal", activation="relu"),
-                Dense(HORIZON)
-            ])
-
-            # Compile simple model with current loss function
-            model.compile(
-                loss=loss_function,
-                optimizer=Adam(),
-                metrics=["mae", "mse"]
-            )
-      
-            # Fit model
-            model.fit(
-                train_data,
-                epochs=num_epochs,
-                verbose=0,
-                validation_data=test_data,
-                # Add callbacks to prevent training from going/stalling for too long
-                callbacks=[
-                    EarlyStopping(monitor="val_loss", patience=200, restore_best_weights=True),
-                    ReduceLROnPlateau(monitor="val_loss", patience=100, verbose=1)
-                ]
-            )
-      
-            # Append fitted model to list of ensemble models
-            ensemble_models.append(model)
-
-  return ensemble_models # return list of trained models
