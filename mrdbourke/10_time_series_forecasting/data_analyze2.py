@@ -81,3 +81,6 @@ added = layers.add([tensor_1, tensor_2])
 print(f"Input tensors: {tensor_1.numpy()} & {tensor_2.numpy()}")
 print(f"Subtracted: {subtracted.numpy()}")
 print(f"Added: {added.numpy()}")
+
+print()
+print(bitcoin_prices_windowed.head())
